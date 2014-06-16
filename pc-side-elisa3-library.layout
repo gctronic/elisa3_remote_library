@@ -2,15 +2,15 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Release" />
 	<File name="elisa3-lib.c" open="1" top="1" tabpos="1">
-		<Cursor position="23492" topLine="857" />
+		<Cursor position="15768" topLine="1161" />
 	</File>
 	<File name="elisa3-lib.h" open="1" top="0" tabpos="2">
-		<Cursor position="15099" topLine="395" />
+		<Cursor position="5381" topLine="408" />
 	</File>
 	<File name="usb-comm.c" open="0" top="0" tabpos="2">
 		<Cursor position="1057" topLine="48" />
 	</File>
-	<File name="usb-comm.h" open="0" top="0" tabpos="4">
+	<File name="usb-comm.h" open="1" top="0" tabpos="3">
 		<Cursor position="22" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

@@ -33,6 +33,20 @@ void setLeftSpeed(int robotAddr, char value);
 void setRightSpeed(int robotAddr, char value);
 
 /**
+ * \brief Set the left speed of all the 4 robots handled in a packet.
+ * \param value The speed array, range is between -128 to 127.
+ * \return none
+ */
+void setLeftSpeed4(char value[4]);
+
+/**
+ * \brief Set the right speed of all the 4 robots handled in a packet.
+ * \param value The speed array, range is between -128 to 127.
+ * \return none
+ */
+void setRightSpeed4(char value[4]);
+
+/**
  * \brief Set the red intensity of the RGB led on the robot.
  * \param robotAddr the address of the robot for which to change the packet.
  * \param value The intensity, range is between 0 (led off) to 100 (max power).
@@ -55,6 +69,27 @@ void setGreen(int robotAddr, unsigned char value);
  * \return none
  */
 void setBlue(int robotAddr, unsigned char value);
+
+/**
+ * \brief Set the red intensity of the RGB led of all the 4 robots handled in a packet.
+ * \param value The intensity array, range is between 0 (led off) to 100 (max power).
+ * \return none
+ */
+void setRed4(unsigned char value[4]);
+
+/**
+ * \brief Set the green intensity of the RGB led of all the 4 robots handled in a packet.
+ * \param value The intensity array, range is between 0 (led off) to 100 (max power).
+ * \return none
+ */
+void setGreen4(unsigned char value[4]);
+
+/**
+ * \brief Set the blue intensity of the RGB led of all the 4 robots handled in a packet.
+ * \param value The intensity array, range is between 0 (led off) to 100 (max power).
+ * \return none
+ */
+void setBlue4(unsigned char value[4]);
 
 /**
  * \brief Turn on both the front IRs transmitter on the robot.
@@ -132,6 +167,12 @@ void disableSleep(int robotAddr);
  * \return none
  */
 void calibrateSensors(int robotAddr);
+
+/**
+ * \brief Calibrate the sensors of all the 4 robots handled in a packet (proximity, accelerometer).
+ * \return none
+ */
+void calibrateSensors4();
 
 /**
  * \brief Enable the onboard obstacle avoidance.
@@ -232,6 +273,34 @@ void getAllGround(int robotAddr, unsigned int* groundArr);
  * \return none
  */
 void getAllGroundAmbient(int robotAddr, unsigned int* groundArr);
+
+/**
+ * \brief Request all the proximity sensors values of all the 4 robots handled in a packet at once.
+ * \param proxArr destination matrix for the proximity values (size must be 4x8).
+ * \return none
+ */
+void getAllProximity4(unsigned int proxArr[4][8]);
+
+/**
+ * \brief Request all the ambient values (from proximity sensors) of all the 4 robots handled in packet at once.
+ * \param proxArr destination matrix for the ambient values (size must be 4x8).
+ * \return none
+ */
+void getAllProximityAmbient4(unsigned int proxArr[4][8]);
+
+/**
+ * \brief Request all the ground sensors values of all the 4 robots handled in a packet at once.
+ * \param groundArr destination matrix for the ground values (size must be 4x4).
+ * \return none
+ */
+void getAllGround4(unsigned int groundArr[4][4]);
+
+/**
+ * \brief Request all the ambient values (from ground sensors) of all the 4 robots handled in a packet at once.
+ * \param groundArr destination matrix for the ambient values (size must be 4x4).
+ * \return none
+ */
+void getAllGroundAmbient4(unsigned int groundArr[4][4]);
 
 /**
  * \brief Request the raw battery value, it contains the sampled value of the battery.

@@ -3,6 +3,7 @@ var searchData=
   ['rad_5f2_5fdeg',['RAD_2_DEG',['../elisa3-lib_8c.html#a7cc378d5a4e034adadb7cd892d707714',1,'elisa3-lib.c']]],
   ['redled',['redLed',['../elisa3-lib_8c.html#aa921cf9bd56975b2a429b3dc54fc01bb',1,'elisa3-lib.c']]],
   ['resetflagtx',['resetFlagTX',['../elisa3-lib_8c.html#a867388ae76ad41d518daf5065b61507c',1,'resetFlagTX(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a867388ae76ad41d518daf5065b61507c',1,'resetFlagTX(int robotAddr):&#160;elisa3-lib.c']]],
+  ['resettxflag',['resetTxFlag',['../elisa3-lib_8c.html#a2bc15ee3a5bb8752bb9862abafc017b4',1,'resetTxFlag(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a2bc15ee3a5bb8752bb9862abafc017b4',1,'resetTxFlag(int robotAddr):&#160;elisa3-lib.c']]],
   ['rightmotsteps',['rightMotSteps',['../elisa3-lib_8c.html#ae2217513cd3702198879b25df716f6c5',1,'elisa3-lib.c']]],
   ['rightspeed',['rightSpeed',['../elisa3-lib_8c.html#a65e1b24add1ee5e831e5995c9fc801fa',1,'elisa3-lib.c']]],
   ['robot_5fpacket_5fsize',['ROBOT_PACKET_SIZE',['../elisa3-lib_8c.html#ac0288e2815267ede80d0778c1844081e',1,'elisa3-lib.c']]],

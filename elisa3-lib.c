@@ -195,6 +195,20 @@ void setRightSpeed(int robotAddr, char value) {
     }
 }
 
+void setLeftSpeed4(char value[4]) {
+    int i = 0;
+    for(i=0; i<4; i++) {
+        leftSpeed[i] = value[i];
+    }
+}
+
+void setRightSpeed4(char value[4]) {
+    int i = 0;
+    for(i=0; i<4; i++) {
+        rightSpeed[i] = value[i];
+    }
+}
+
 void setRed(int robotAddr, unsigned char value) {
     int id = getIdFromAddress(robotAddr);
     if(id>=0) {
@@ -231,6 +245,45 @@ void setBlue(int robotAddr, unsigned char value) {
             value = 100;
         }
         blueLed[id] = value;
+    }
+}
+
+void setRed4(unsigned char value[4]) {
+    int i = 0;
+    for(i=0; i<4; i++) {
+        if(value[i] < 0) {
+            value[i] = 0;
+        }
+        if(value[i] > 100) {
+            value[i] = 100;
+        }
+        redLed[i] = value[i];
+    }
+}
+
+void setGreen4(unsigned char value[4]) {
+    int i = 0;
+    for(i=0; i<4; i++) {
+        if(value[i] < 0) {
+            value[i] = 0;
+        }
+        if(value[i] > 100) {
+            value[i] = 100;
+        }
+        greenLed[i] = value[i];
+    }
+}
+
+void setBlue4(unsigned char value[4]) {
+    int i = 0;
+    for(i=0; i<4; i++) {
+        if(value[i] < 0) {
+            value[i] = 0;
+        }
+        if(value[i] > 100) {
+            value[i] = 100;
+        }
+        blueLed[i] = value[i];
     }
 }
 
@@ -410,6 +463,42 @@ void getAllGroundAmbient(int robotAddr, unsigned int* groundArr) {
     }
 }
 
+void getAllProximity4(unsigned int proxArr[4][8]) {
+    int i = 0, j = 0;
+    for(i=0; i<4; i++) {
+        for(j=0; j<8; j++) {
+            proxArr[i][j] = proxValue[i][j];
+        }
+    }
+}
+
+void getAllProximityAmbient4(unsigned int proxArr[4][8]) {
+    int i = 0, j = 0;
+    for(i=0; i<4; i++) {
+        for(j=0; j<8; j++) {
+            proxArr[i][j] = proxAmbientValue[i][j];
+        }
+    }
+}
+
+void getAllGround4(unsigned int groundArr[4][4]) {
+    int i = 0, j = 0;
+    for(i=0; i<4; i++) {
+        for(j=0; j<4; j++) {
+            groundArr[i][j] = groundValue[i][j];
+        }
+    }
+}
+
+void getAllGroundAmbient4(unsigned int groundArr[4][4]) {
+    int i = 0, j = 0;
+    for(i=0; i<4; i++) {
+        for(j=0; j<4; j++) {
+            groundArr[i][j] = groundAmbientValue[i][j];
+        }
+    }
+}
+
 unsigned int getBatteryAdc(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
     if(id>=0) {
@@ -535,6 +624,14 @@ void calibrateSensors(int robotAddr) {
     if(id>=0) {
 	calibrationSent[id] = 0;
         CALIBRATION_ON(flagsTX[0][id]);
+    }
+}
+
+void calibrateSensors4() {
+    int i = 0;
+    for(i=0; i<4; i++) {
+        calibrationSent[i] = 0;
+        CALIBRATION_ON(flagsTX[0][i]);
     }
 }
 

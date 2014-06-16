@@ -112,7 +112,6 @@ Defines</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#af485feb53f54b298236422237bc5294f">UNUSED_BYTES</a>&#160;&#160;&#160;3</td></tr>
 <tr><td colspan="2"><h2><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">DWORD WINAPI&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a9ca720e74b9581b0b542ff1800b2a901">CommThread</a> (LPVOID lpParameter)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a42db4d15c996c99f87d651c5529126c7">speed</a> (char value)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ab027d820a58cc8a741ae8c95a6c6afaa">computeVerticalAngle</a> (signed int x, signed int y)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a2bec75efebe3e5aa4b9075f0e5995168">getIdFromAddress</a> (int address)</td></tr>
@@ -124,12 +123,22 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the left speed of the robot.  <a href="#ab569b5f12f3285df46cc690c14d69a77"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a6afa502c04e69628eab2b53c7bc6a392">setRightSpeed</a> (int robotAddr, char value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the right speed of the robot.  <a href="#a6afa502c04e69628eab2b53c7bc6a392"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ab5add5b5587fd56c9324675c86bf7f55">setLeftSpeed4</a> (char value[4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the left speed of all the 4 robots handled in a packet.  <a href="#ab5add5b5587fd56c9324675c86bf7f55"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a231aadb8e051aace1247269605a3c1df">setRightSpeed4</a> (char value[4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the right speed of all the 4 robots handled in a packet.  <a href="#a231aadb8e051aace1247269605a3c1df"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a22fbae1f24a299d5ea65433c8a89047b">setRed</a> (int robotAddr, unsigned char value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the red intensity of the RGB led on the robot.  <a href="#a22fbae1f24a299d5ea65433c8a89047b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ae199a6df193d9ddd8125bf31e34d960a">setGreen</a> (int robotAddr, unsigned char value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the green intensity of the RGB led on the robot.  <a href="#ae199a6df193d9ddd8125bf31e34d960a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a82b4e0c2ac6de67bb687f846ba98eab2">setBlue</a> (int robotAddr, unsigned char value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the blue intensity of the RGB led on the robot.  <a href="#a82b4e0c2ac6de67bb687f846ba98eab2"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a7482964b43de4951202856af0c139415">setRed4</a> (unsigned char value[4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the red intensity of the RGB led of all the 4 robots handled in a packet.  <a href="#a7482964b43de4951202856af0c139415"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ae1855e67dccd5bd195fc8836524e8c4b">setGreen4</a> (unsigned char value[4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the green intensity of the RGB led of all the 4 robots handled in a packet.  <a href="#ae1855e67dccd5bd195fc8836524e8c4b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a86bf7a6d766209bd065c115a47b10eb1">setBlue4</a> (unsigned char value[4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the blue intensity of the RGB led of all the 4 robots handled in a packet.  <a href="#a86bf7a6d766209bd065c115a47b10eb1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ac38c39bc7b0769869299f25634515ee1">turnOnFrontIRs</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn on both the front IRs transmitter on the robot.  <a href="#ac38c39bc7b0769869299f25634515ee1"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a06abecb4fa685b8623d64bee78f4a3c3">turnOffFrontIRs</a> (int robotAddr)</td></tr>
@@ -176,6 +185,14 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request all the ground sensors values at once.  <a href="#a445b7d2f08cedc0a3fe75506d50a4fde"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#abcadbc5f8d4f2fc5babff3853aacc4b4">getAllGroundAmbient</a> (int robotAddr, unsigned int *groundArr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request all the ambient values (from ground sensors) at once.  <a href="#abcadbc5f8d4f2fc5babff3853aacc4b4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ab0be240be2e59e6dc895f13d12674555">getAllProximity4</a> (unsigned int proxArr[4][8])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request all the proximity sensors values of all the 4 robots handled in a packet at once.  <a href="#ab0be240be2e59e6dc895f13d12674555"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#acb752f64a18e705e66f647efc39c00b8">getAllProximityAmbient4</a> (unsigned int proxArr[4][8])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request all the ambient values (from proximity sensors) of all the 4 robots handled in packet at once.  <a href="#acb752f64a18e705e66f647efc39c00b8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ac31fd9fd00e9bc82d63922d693f7f3f0">getAllGround4</a> (unsigned int groundArr[4][4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request all the ground sensors values of all the 4 robots handled in a packet at once.  <a href="#ac31fd9fd00e9bc82d63922d693f7f3f0"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a65cff1a5ec7b814792a6bf42177ac2b6">getAllGroundAmbient4</a> (unsigned int groundArr[4][4])</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request all the ambient values (from ground sensors) of all the 4 robots handled in a packet at once.  <a href="#a65cff1a5ec7b814792a6bf42177ac2b6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a751e9d96aeabb7aa35a20cbd0e498c71">getBatteryAdc</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request the raw battery value, it contains the sampled value of the battery.  <a href="#a751e9d96aeabb7aa35a20cbd0e498c71"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a4351f3374606d45d6ea4c58d7ffee16a">getBatteryPercent</a> (int robotAddr)</td></tr>
@@ -206,6 +223,8 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request the current orientation of the robot given by the accelerometer. This function is usable only if the robot is moving vertically.  <a href="#af6e789456d643c8055d4d7551f87b177"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a9f9a5273f76aa9bca15f2f2bb49b991f">calibrateSensors</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrate the sensors of the robot (proximity, accelerometer).  <a href="#a9f9a5273f76aa9bca15f2f2bb49b991f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a617db3ee751b998fc95f1451d406b056">calibrateSensors4</a> ()</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Calibrate the sensors of all the 4 robots handled in a packet (proximity, accelerometer).  <a href="#a617db3ee751b998fc95f1451d406b056"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a85d8a734c00a1025eb39d2902ff0557f">startOdometryCalibration</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the odometry calibration.  <a href="#a85d8a734c00a1025eb39d2902ff0557f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a576a1dc52a8b662f52aa93f6c22e8c2c">robotIsCharging</a> (int robotAddr)</td></tr>
@@ -224,6 +243,10 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request the current raw value of the left motor steps (sum of the measured speed).  <a href="#aea505c714c414912073027d33e217373"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">signed long int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a667654fad14544001640d33b2e9b8929">getRightMotSteps</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request the current raw value of the right motor steps (sum of the measured speed).  <a href="#a667654fad14544001640d33b2e9b8929"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a2bc15ee3a5bb8752bb9862abafc017b4">resetTxFlag</a> (int robotAddr)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the flag indicating that the last modified packet is sent to the robot; it should be called before using "messageIsSent".  <a href="#a2bc15ee3a5bb8752bb9862abafc017b4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#aae4aa25b43632119c6283fbb1f54b721">messageIsSent</a> (int robotAddr)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request if the last modified packet is sent to the robot; this function is thought to be used in polling mode (continue to check whether the message is sent untill it is actually sent).  <a href="#aae4aa25b43632119c6283fbb1f54b721"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a09e80dbbe917e184ca92ffd44dc0c578">getRFQuality</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Request the current percentage of failed trasnfers in the last 5 seconds.  <a href="#a09e80dbbe917e184ca92ffd44dc0c578"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a3468014ccaf69f2f9db7149ad0257294">transferData</a> ()</td></tr>
@@ -258,11 +281,12 @@ Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#af1340fabc47c69e88288efd776eddbbb">sleepEnabledFlag</a> [4]</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a0e7919a152a9dd643803853a92dad6e0">RX_buffer</a> [64] = {0}</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a0855ad04c0d4bebd7be7a4f97396b77f">TX_buffer</a> [64] = {0}</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">DWORD&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#afbdc48db4f5c3f0226b7ddd7d74d0184">commThreadId</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">HANDLE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a0eb0ce60feadcbbf9792146c5e0bc88e">commThread</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a57dd424c3c691ec91982d4c33ea64644">numOfErrors</a> [4]</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ad361eef48b2074992e616ee6226b1713">numOfPackets</a> = 0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a0a094fa6a12ae25ee68d6aa80c7e857e">errorPercentage</a> [4]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ac97b5103729d01aadb1e5cd6ea555012">lastMessageSentFlag</a> [4]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a616ef812896bd7ccc24b382423bb5882">calibrationSent</a> [4]</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a91367554d7b5c31b8048eb2c9621dbc1">calibrateOdomSent</a> [4]</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="acfe2aa658c61f71e0a185bcff3008a00"></a><!-- doxytag: member="elisa3&#45;lib.c::ADDR_SIZE" ref="acfe2aa658c61f71e0a185bcff3008a00" args="" -->
@@ -694,6 +718,25 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a617db3ee751b998fc95f1451d406b056"></a><!-- doxytag: member="elisa3&#45;lib.c::calibrateSensors4" ref="a617db3ee751b998fc95f1451d406b056" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#a617db3ee751b998fc95f1451d406b056">calibrateSensors4</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Calibrate the sensors of all the 4 robots handled in a packet (proximity, accelerometer). </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="afb511fbdb458d0fdd3ea0c54d8497f8b"></a><!-- doxytag: member="elisa3&#45;lib.c::closeRobotComm" ref="afb511fbdb458d0fdd3ea0c54d8497f8b" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -710,23 +753,6 @@ Variables</h2></td></tr>
 
 <p>To be called once at the end, it closes the USB communication. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a9ca720e74b9581b0b542ff1800b2a901"></a><!-- doxytag: member="elisa3&#45;lib.c::CommThread" ref="a9ca720e74b9581b0b542ff1800b2a901" args="(LPVOID lpParameter)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">DWORD WINAPI <a class="el" href="elisa3-lib_8c.html#a9ca720e74b9581b0b542ff1800b2a901">CommThread</a> </td>
-          <td>(</td>
-          <td class="paramtype">LPVOID&#160;</td>
-          <td class="paramname"><em>lpParameter</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
 
 </div>
 </div>
@@ -1080,6 +1106,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac31fd9fd00e9bc82d63922d693f7f3f0"></a><!-- doxytag: member="elisa3&#45;lib.c::getAllGround4" ref="ac31fd9fd00e9bc82d63922d693f7f3f0" args="(unsigned int groundArr[4][4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#ac31fd9fd00e9bc82d63922d693f7f3f0">getAllGround4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>groundArr</em>[4][4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Request all the ground sensors values of all the 4 robots handled in a packet at once. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">groundArr</td><td>destination matrix for the ground values (size must be 4x4). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="abcadbc5f8d4f2fc5babff3853aacc4b4"></a><!-- doxytag: member="elisa3&#45;lib.c::getAllGroundAmbient" ref="abcadbc5f8d4f2fc5babff3853aacc4b4" args="(int robotAddr, unsigned int *groundArr)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1110,6 +1162,32 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">robotAddr</td><td>the address of the robot from which receive data. </td></tr>
     <tr><td class="paramname">groundArr</td><td>destination array for the ambient values (size must be 4). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a65cff1a5ec7b814792a6bf42177ac2b6"></a><!-- doxytag: member="elisa3&#45;lib.c::getAllGroundAmbient4" ref="a65cff1a5ec7b814792a6bf42177ac2b6" args="(unsigned int groundArr[4][4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#a65cff1a5ec7b814792a6bf42177ac2b6">getAllGroundAmbient4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>groundArr</em>[4][4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Request all the ambient values (from ground sensors) of all the 4 robots handled in a packet at once. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">groundArr</td><td>destination matrix for the ambient values (size must be 4x4). </td></tr>
   </table>
   </dd>
 </dl>
@@ -1154,6 +1232,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab0be240be2e59e6dc895f13d12674555"></a><!-- doxytag: member="elisa3&#45;lib.c::getAllProximity4" ref="ab0be240be2e59e6dc895f13d12674555" args="(unsigned int proxArr[4][8])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#ab0be240be2e59e6dc895f13d12674555">getAllProximity4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>proxArr</em>[4][8]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Request all the proximity sensors values of all the 4 robots handled in a packet at once. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">proxArr</td><td>destination matrix for the proximity values (size must be 4x8). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6a408a5649731d72c9f58346edd88ff5"></a><!-- doxytag: member="elisa3&#45;lib.c::getAllProximityAmbient" ref="a6a408a5649731d72c9f58346edd88ff5" args="(int robotAddr, unsigned int *proxArr)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1184,6 +1288,32 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">robotAddr</td><td>the address of the robot from which receive data. </td></tr>
     <tr><td class="paramname">proxArr</td><td>destination array for the ambient values (size must be 8). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acb752f64a18e705e66f647efc39c00b8"></a><!-- doxytag: member="elisa3&#45;lib.c::getAllProximityAmbient4" ref="acb752f64a18e705e66f647efc39c00b8" args="(unsigned int proxArr[4][8])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#acb752f64a18e705e66f647efc39c00b8">getAllProximityAmbient4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>proxArr</em>[4][8]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Request all the ambient values (from proximity sensors) of all the 4 robots handled in packet at once. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">proxArr</td><td>destination matrix for the ambient values (size must be 4x8). </td></tr>
   </table>
   </dd>
 </dl>
@@ -1705,6 +1835,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aae4aa25b43632119c6283fbb1f54b721"></a><!-- doxytag: member="elisa3&#45;lib.c::messageIsSent" ref="aae4aa25b43632119c6283fbb1f54b721" args="(int robotAddr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="elisa3-lib_8h.html#aae4aa25b43632119c6283fbb1f54b721">messageIsSent</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotAddr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Request if the last modified packet is sent to the robot; this function is thought to be used in polling mode (continue to check whether the message is sent untill it is actually sent). </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">robotAddr</td><td>the address of the robot from which receive data.. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>0 if message not received by the robot, 1 if message sent correctly. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="af0cfc73018ee11da5142aa325c9f05d1"></a><!-- doxytag: member="elisa3&#45;lib.c::openRobotComm" ref="af0cfc73018ee11da5142aa325c9f05d1" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -1740,6 +1896,32 @@ Variables</h2></td></tr>
 <div class="memdoc">
 
 <p>Reset all the flags sent to the robot. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">robotAddr</td><td>the address of the robot for which to change data. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a2bc15ee3a5bb8752bb9862abafc017b4"></a><!-- doxytag: member="elisa3&#45;lib.c::resetTxFlag" ref="a2bc15ee3a5bb8752bb9862abafc017b4" args="(int robotAddr)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#a2bc15ee3a5bb8752bb9862abafc017b4">resetTxFlag</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotAddr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Reset the flag indicating that the last modified packet is sent to the robot; it should be called before using "messageIsSent". </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">robotAddr</td><td>the address of the robot for which to change data. </td></tr>
@@ -1839,6 +2021,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a86bf7a6d766209bd065c115a47b10eb1"></a><!-- doxytag: member="elisa3&#45;lib.c::setBlue4" ref="a86bf7a6d766209bd065c115a47b10eb1" args="(unsigned char value[4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#a86bf7a6d766209bd065c115a47b10eb1">setBlue4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>value</em>[4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set the blue intensity of the RGB led of all the 4 robots handled in a packet. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The intensity array, range is between 0 (led off) to 100 (max power). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae199a6df193d9ddd8125bf31e34d960a"></a><!-- doxytag: member="elisa3&#45;lib.c::setGreen" ref="ae199a6df193d9ddd8125bf31e34d960a" args="(int robotAddr, unsigned char value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1869,6 +2077,32 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">robotAddr</td><td>the address of the robot for which to change the packet. </td></tr>
     <tr><td class="paramname">value</td><td>The intensity, range is between 0 (led off) to 100 (max power). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae1855e67dccd5bd195fc8836524e8c4b"></a><!-- doxytag: member="elisa3&#45;lib.c::setGreen4" ref="ae1855e67dccd5bd195fc8836524e8c4b" args="(unsigned char value[4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#ae1855e67dccd5bd195fc8836524e8c4b">setGreen4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>value</em>[4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set the green intensity of the RGB led of all the 4 robots handled in a packet. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The intensity array, range is between 0 (led off) to 100 (max power). </td></tr>
   </table>
   </dd>
 </dl>
@@ -1913,6 +2147,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ab5add5b5587fd56c9324675c86bf7f55"></a><!-- doxytag: member="elisa3&#45;lib.c::setLeftSpeed4" ref="ab5add5b5587fd56c9324675c86bf7f55" args="(char value[4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#ab5add5b5587fd56c9324675c86bf7f55">setLeftSpeed4</a> </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>value</em>[4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set the left speed of all the 4 robots handled in a packet. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The speed array, range is between -128 to 127. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a22fbae1f24a299d5ea65433c8a89047b"></a><!-- doxytag: member="elisa3&#45;lib.c::setRed" ref="a22fbae1f24a299d5ea65433c8a89047b" args="(int robotAddr, unsigned char value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1950,6 +2210,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7482964b43de4951202856af0c139415"></a><!-- doxytag: member="elisa3&#45;lib.c::setRed4" ref="a7482964b43de4951202856af0c139415" args="(unsigned char value[4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#a7482964b43de4951202856af0c139415">setRed4</a> </td>
+          <td>(</td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>value</em>[4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set the red intensity of the RGB led of all the 4 robots handled in a packet. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The intensity array, range is between 0 (led off) to 100 (max power). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6afa502c04e69628eab2b53c7bc6a392"></a><!-- doxytag: member="elisa3&#45;lib.c::setRightSpeed" ref="a6afa502c04e69628eab2b53c7bc6a392" args="(int robotAddr, char value)" -->
 <div class="memitem">
 <div class="memproto">
@@ -1980,6 +2266,32 @@ Variables</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">robotAddr</td><td>the address of the robot for which to change the packet. </td></tr>
     <tr><td class="paramname">value</td><td>The speed, range is between -128 to 127. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a231aadb8e051aace1247269605a3c1df"></a><!-- doxytag: member="elisa3&#45;lib.c::setRightSpeed4" ref="a231aadb8e051aace1247269605a3c1df" args="(char value[4])" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8h.html#a231aadb8e051aace1247269605a3c1df">setRightSpeed4</a> </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>value</em>[4]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Set the right speed of all the 4 robots handled in a packet. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The speed array, range is between -128 to 127. </td></tr>
   </table>
   </dd>
 </dl>
@@ -2417,12 +2729,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a0eb0ce60feadcbbf9792146c5e0bc88e"></a><!-- doxytag: member="elisa3&#45;lib.c::commThread" ref="a0eb0ce60feadcbbf9792146c5e0bc88e" args="" -->
+<a class="anchor" id="a91367554d7b5c31b8048eb2c9621dbc1"></a><!-- doxytag: member="elisa3&#45;lib.c::calibrateOdomSent" ref="a91367554d7b5c31b8048eb2c9621dbc1" args="[4]" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">HANDLE <a class="el" href="elisa3-lib_8c.html#a0eb0ce60feadcbbf9792146c5e0bc88e">commThread</a></td>
+          <td class="memname">unsigned char <a class="el" href="elisa3-lib_8c.html#a91367554d7b5c31b8048eb2c9621dbc1">calibrateOdomSent</a>[4]</td>
         </tr>
       </table>
 </div>
@@ -2430,12 +2742,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afbdc48db4f5c3f0226b7ddd7d74d0184"></a><!-- doxytag: member="elisa3&#45;lib.c::commThreadId" ref="afbdc48db4f5c3f0226b7ddd7d74d0184" args="" -->
+<a class="anchor" id="a616ef812896bd7ccc24b382423bb5882"></a><!-- doxytag: member="elisa3&#45;lib.c::calibrationSent" ref="a616ef812896bd7ccc24b382423bb5882" args="[4]" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DWORD <a class="el" href="elisa3-lib_8c.html#afbdc48db4f5c3f0226b7ddd7d74d0184">commThreadId</a></td>
+          <td class="memname">unsigned char <a class="el" href="elisa3-lib_8c.html#a616ef812896bd7ccc24b382423bb5882">calibrationSent</a>[4]</td>
         </tr>
       </table>
 </div>
@@ -2514,6 +2826,19 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">unsigned int <a class="el" href="elisa3-lib_8c.html#acab59d33273825badc93be1408e1d49d">groundValue</a>[4][4]</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac97b5103729d01aadb1e5cd6ea555012"></a><!-- doxytag: member="elisa3&#45;lib.c::lastMessageSentFlag" ref="ac97b5103729d01aadb1e5cd6ea555012" args="[4]" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="elisa3-lib_8c.html#ac97b5103729d01aadb1e5cd6ea555012">lastMessageSentFlag</a>[4]</td>
         </tr>
       </table>
 </div>
@@ -2786,7 +3111,7 @@ Variables</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jun 12 2014 13:24:44 for PC side Elisa-3 library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 16 2014 13:25:01 for PC side Elisa-3 library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

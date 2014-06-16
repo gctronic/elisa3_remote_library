@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['commthread',['commThread',['../elisa3-lib_8c.html#a0eb0ce60feadcbbf9792146c5e0bc88e',1,'elisa3-lib.c']]],
-  ['commthreadid',['commThreadId',['../elisa3-lib_8c.html#afbdc48db4f5c3f0226b7ddd7d74d0184',1,'elisa3-lib.c']]]
+  ['calibrateodomsent',['calibrateOdomSent',['../elisa3-lib_8c.html#a91367554d7b5c31b8048eb2c9621dbc1',1,'elisa3-lib.c']]],
+  ['calibrationsent',['calibrationSent',['../elisa3-lib_8c.html#a616ef812896bd7ccc24b382423bb5882',1,'elisa3-lib.c']]]
 ];

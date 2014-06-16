@@ -4,6 +4,12 @@
     #include "windows.h"
 #endif
 
+#if defined(__linux__) || defined(__APPLE__)
+    #include "pthread.h"
+	#include <time.h>
+	#include <sys/time.h>
+#endif
+
 // macro for handling flags byte
 #define FRONT_IR_ON(x) ((x) |= (1 << 1))
 #define BACK_IR_ON(x) ((x) |= (1 << 0))
@@ -93,13 +99,25 @@ unsigned char sleepEnabledFlag[4];
 // Communication
 char RX_buffer[64]={0};         // Last packet received from base station
 char TX_buffer[64]={0};         // Next packet to send to base station
+#ifdef _WIN32
 DWORD commThreadId;
 HANDLE commThread;
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+pthread_t commThread;
+#endif
 double numOfErrors[4], numOfPackets=0, errorPercentage[4];
+unsigned char lastMessageSentFlag[4];
+unsigned char calibrationSent[4];
+unsigned char calibrateOdomSent[4];
 
 // functions declaration
+#ifdef _WIN32
 DWORD WINAPI CommThread( LPVOID lpParameter);
-
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+void *CommThread(void *arg);
+#endif
 
 char speed(char value) {
     if(value >= 0) {
@@ -136,13 +154,31 @@ int getIdFromAddress(int address) {
 void openRobotComm() {
     openCommunication();
     TX_buffer[0]=0x27;
+
+#ifdef _WIN32
     commThread = CreateThread(NULL, 0, CommThread, NULL, 0, &commThreadId);
+#endif
+
+#if defined(__linux__) || defined(__APPLE__)
+    if(pthread_create(&commThread, NULL, CommThread, NULL)) {
+        fprintf(stderr, "Error creating thread\n");
+    }
+#endif
+
 }
 
 void closeRobotComm() {
     closeCommunication();
+
+#ifdef _WIN32
     TerminateThread(commThread, 0);
     CloseHandle(commThread);
+#endif
+
+#if defined(__linux__) || defined(__APPLE__)
+	pthread_cancel(commThread);
+#endif
+
 }
 
 void setLeftSpeed(int robotAddr, char value) {
@@ -497,6 +533,7 @@ int getVerticalAngle(int robotAddr) {
 void calibrateSensors(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
     if(id>=0) {
+	calibrationSent[id] = 0;
         CALIBRATION_ON(flagsTX[0][id]);
     }
 }
@@ -504,6 +541,7 @@ void calibrateSensors(int robotAddr) {
 void startOdometryCalibration(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
     if(id>=0) {
+		calibrateOdomSent[id] = 0;
         flagsTX[1][id] |= (1<<0);
     }
 }
@@ -580,6 +618,21 @@ signed long int getRightMotSteps(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
     if(id>=0) {
         return rightMotSteps[id];
+    }
+    return -1;
+}
+
+void resetTxFlag(int robotAddr) {
+    int id = getIdFromAddress(robotAddr);
+    if(id>=0) {
+        lastMessageSentFlag[id] = 0;
+    }
+}
+
+unsigned char messageIsSent(int robotAddr) {
+    int id = getIdFromAddress(robotAddr);
+    if(id>=0) {
+        return lastMessageSentFlag[id];
     }
     return -1;
 }
@@ -701,6 +754,15 @@ void transferData() {
     if(err < 0) {
         printf("send error!\n");
     }
+	calibrationSent[0]++;
+	calibrationSent[1]++;
+	calibrationSent[2]++;
+	calibrationSent[3]++;
+
+	calibrateOdomSent[0]++;
+	calibrateOdomSent[1]++;
+	calibrateOdomSent[2]++;
+	calibrateOdomSent[3]++;
 
     RX_buffer[0] = 0;
     RX_buffer[16] = 0;
@@ -719,6 +781,7 @@ void transferData() {
         //printf("transfer failed to robot %d (addr=%d)\n", 0, currAddress[0]);
         numOfErrors[0]++;
     } else {
+        lastMessageSentFlag[0] = 1;
         // extract the sensors data for the first robot based on the packet id (first byte):
         // id=3 | prox0         | prox1         | prox2         | prox3         | prox5         | prox6         | prox7         | flags
         // id=4 | prox4         | gound0        | ground1       | ground2       | ground3       | accX          | accY          | tv remote
@@ -783,6 +846,7 @@ void transferData() {
         //printf("transfer failed to robot %d (addr=%d)\n", 1, currAddress[1]);
         numOfErrors[1]++;
     } else {
+        lastMessageSentFlag[1] = 1;
         switch((int)((unsigned char)RX_buffer[16])) {
             case 3:
                 proxValue[1][0] = (((signed int)RX_buffer[18]<<8)|(unsigned char)RX_buffer[17]);
@@ -842,6 +906,7 @@ void transferData() {
         //printf("transfer failed to robot %d (addr=%d)\n", 2, currAddress[2]);
         numOfErrors[2]++;
     } else {
+        lastMessageSentFlag[2] = 1;
         switch((int)((unsigned char)RX_buffer[32])) {
             case 3:
                 proxValue[2][0] = (((signed int)RX_buffer[34]<<8)|(unsigned char)RX_buffer[33]);
@@ -901,6 +966,7 @@ void transferData() {
         //printf("transfer failed to robot %d (addr=%d)\n", 3, currAddress[3]);
         numOfErrors[3]++;
     } else {
+        lastMessageSentFlag[3] = 1;
         switch((int)((unsigned char)RX_buffer[48])) {
             case 3:
                 proxValue[3][0] = (((signed int)RX_buffer[50]<<8)|(unsigned char)RX_buffer[49]);
@@ -956,17 +1022,35 @@ void transferData() {
         }
     }
 
-    CALIBRATION_OFF(flagsTX[0][0]);
-    CALIBRATION_OFF(flagsTX[0][1]);
-    CALIBRATION_OFF(flagsTX[0][2]);
-    CALIBRATION_OFF(flagsTX[0][3]);
-    flagsTX[1][0] &= ~(1<<0);
-    flagsTX[1][1] &= ~(1<<0);
-    flagsTX[1][2] &= ~(1<<0);
-    flagsTX[1][3] &= ~(1<<0);
+	if(calibrationSent[0] > 2) {
+	    CALIBRATION_OFF(flagsTX[0][0]);
+	}
+	if(calibrationSent[1] > 2) {
+	    CALIBRATION_OFF(flagsTX[0][1]);
+	}
+	if(calibrationSent[2] > 2) {
+    	CALIBRATION_OFF(flagsTX[0][2]);
+	}
+	if(calibrationSent[3] > 2) {
+    	CALIBRATION_OFF(flagsTX[0][3]);
+	}
+
+	if(calibrateOdomSent[0] > 2) {
+	    flagsTX[1][0] &= ~(1<<0);
+	}
+	if(calibrateOdomSent[1] > 2) {
+    	flagsTX[1][1] &= ~(1<<0);
+	}
+	if(calibrateOdomSent[2] > 2) {
+	    flagsTX[1][2] &= ~(1<<0);
+	}
+	if(calibrateOdomSent[3] > 2) {
+	    flagsTX[1][3] &= ~(1<<0);
+	}
 
 }
 
+#ifdef _WIN32
 DWORD WINAPI CommThread( LPVOID lpParameter) {
 
     SYSTEMTIME currTimeRF;
@@ -1025,4 +1109,46 @@ DWORD WINAPI CommThread( LPVOID lpParameter) {
 
     return 0;
 }
+#endif
+
+#if defined(__linux__) || defined(__APPLE__)
+void *CommThread(void *arg) {
+	struct timeval currTimeRF, txTimeRF, exitTime;
+
+    gettimeofday(&currTimeRF, NULL);
+	gettimeofday(&txTimeRF, NULL);
+	gettimeofday(&exitTime, NULL);
+
+    while(1) {
+        transferData();
+
+        while(1) {
+            gettimeofday(&currTimeRF, NULL);
+
+            if((((currTimeRF.tv_sec * 1000000 + currTimeRF.tv_usec)-(txTimeRF.tv_sec * 1000000 + txTimeRF.tv_usec)) > 4000)) {   // 4 ms => transfer @ 250 Hz
+                gettimeofday(&txTimeRF, NULL);
+                break;
+            }
+        }
+
+        numOfPackets++;
+
+        if(((currTimeRF.tv_sec * 1000000 + currTimeRF.tv_usec)-(exitTime.tv_sec * 1000000 + exitTime.tv_usec) > 5000000)) { // 5 seconds
+            gettimeofday(&exitTime, NULL);
+            errorPercentage[0] = numOfErrors[0]/numOfPackets*100.0;
+            errorPercentage[1] = numOfErrors[1]/numOfPackets*100.0;
+            errorPercentage[2] = numOfErrors[2]/numOfPackets*100.0;
+            errorPercentage[3] = numOfErrors[3]/numOfPackets*100.0;
+            numOfErrors[0] = 0;
+            numOfErrors[1] = 0;
+            numOfErrors[2] = 0;
+            numOfErrors[3] = 0;
+            numOfPackets = 0;
+        }
+    }
+
+}
+#endif
+
+
 

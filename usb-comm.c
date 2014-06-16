@@ -2,6 +2,12 @@
 #ifdef _WIN32
     #include "libusb.h"
 #endif
+#ifdef __APPLE__
+    #include </opt/local/include/libusb-1.0/libusb.h>
+#endif
+#if defined(__linux__)
+    #include <libusb-1.0/libusb.h>
+#endif
 
 static struct libusb_device_handle *devh = NULL;
 
@@ -51,8 +57,6 @@ int usb_receive(char* data, int nbytes) {
 int openCommunication() {
     int error=0;
 
-    fprintf(stderr, "hi\n");
-
 	error = libusb_init(NULL);
 	if (error < 0) {
 	    fprintf(stderr, "libusb_init error %d\n", error);
@@ -68,8 +72,6 @@ int openCommunication() {
 	if (error < 0) {
 		fprintf(stderr, "usb_claim_interface error %d\n", error);
 	}
-
-    fprintf(stderr, "claimed interface\n");
 
 	return 0;
 }

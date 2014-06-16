@@ -409,3 +409,17 @@ signed long int getRightMotSteps(int robotAddr);
  * \return current quality, 0 to 100.
  */
 double getRFQuality(int robotAddr);
+
+/**
+ * \brief Reset the flag indicating that the last modified packet is sent to the robot; it should be called before using "messageIsSent".
+ * \param robotAddr the address of the robot for which to change data.
+ * \return none.
+ */
+void resetTxFlag(int robotAddr);
+
+/**
+ * \brief Request if the last modified packet is sent to the robot; this function is thought to be used in polling mode (continue to check whether the message is sent untill it is actually sent).
+ * \param robotAddr the address of the robot from which receive data..
+ * \return 0 if message not received by the robot, 1 if message sent correctly.
+ */
+unsigned char messageIsSent(int robotAddr);

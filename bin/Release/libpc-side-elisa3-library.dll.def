@@ -21,220 +21,225 @@ EXPORTS
     batteryPercent @20 DATA
     blueLed @21 DATA
     buttonIsPressed @22
-    calibrateSensors @23
-    cancel_io @24
-    closeCommunication @25
-    closeRobotComm @26
-    commThread @27 DATA
-    commThreadId @28 DATA
-    composite_driver_names @29 DATA
-    computeVerticalAngle @30
-    create_overlapped @31
-    disableCliffAvoidance @32
-    disableObstacleAvoidance @33
-    disableSleep @34
-    disableTVRemote @35
-    discovered_devs_append @36
-    enableCliffAvoidance @37
-    enableObstacleAvoidance @38
-    enableSleep @39
-    enableTVRemote @40
-    epoch_time @41 DATA
-    errorPercentage @42 DATA
-    exit_polling @43
-    fd_to_winfd @44
-    flagsRX @45 DATA
-    flagsTX @46 DATA
-    free_overlapped @47
-    getAccX @48
-    getAccY @49
-    getAccZ @50
-    getAllGround @51
-    getAllGroundAmbient @52
-    getAllProximity @53
-    getAllProximityAmbient @54
-    getBatteryAdc @55
-    getBatteryPercent @56
-    getFlagRX @57
-    getFlagTX @58
-    getGround @59
-    getGroundAmbient @60
-    getIdFromAddress @61
-    getLeftMotSteps @62
-    getOdomTheta @63
-    getOdomXpos @64
-    getOdomYpos @65
-    getProximity @66
-    getProximityAmbient @67
-    getRFQuality @68
-    getRightMotSteps @69
-    getSelector @70
-    getTVRemoteCommand @71
-    getVerticalAngle @72
-    greenLed @73 DATA
-    groundAmbientValue @74 DATA
-    groundValue @75 DATA
-    handle_to_winfd @76
-    hires_frequency @77 DATA
-    hires_ticks_to_ps @78 DATA
-    htab_filled @79 DATA
-    htab_size @80 DATA
-    htab_table @81 DATA
-    htab_write_mutex @82 DATA
-    hub_driver_names @83 DATA
-    init_polling @84
-    is_polling_set @85 DATA
-    leftMotSteps @86 DATA
-    leftSpeed @87 DATA
-    libusb_alloc_transfer@4 @88
-    libusb_attach_kernel_driver@8 @89
-    libusb_bulk_transfer@24 @90
-    libusb_cancel_transfer@4 @91
-    libusb_claim_interface@8 @92
-    libusb_clear_halt@8 @93
-    libusb_close@4 @94
-    libusb_control_transfer@32 @95
-    libusb_detach_kernel_driver@8 @96
-    libusb_event_handler_active@4 @97
-    libusb_event_handling_ok@4 @98
-    libusb_exit@4 @99
-    libusb_free_config_descriptor@4 @100
-    libusb_free_device_list@8 @101
-    libusb_free_transfer@4 @102
-    libusb_get_active_config_descriptor@8 @103
-    libusb_get_bus_number@4 @104
-    libusb_get_config_descriptor@12 @105
-    libusb_get_config_descriptor_by_value@12 @106
-    libusb_get_configuration@8 @107
-    libusb_get_device@4 @108
-    libusb_get_device_address@4 @109
-    libusb_get_device_descriptor@8 @110
-    libusb_get_device_list@8 @111
-    libusb_get_max_iso_packet_size@8 @112
-    libusb_get_max_packet_size@8 @113
-    libusb_get_next_timeout@8 @114
-    libusb_get_parent@4 @115
-    libusb_get_pollfds@4 @116
-    libusb_get_port_number@4 @117
-    libusb_get_port_path@16 @118
-    libusb_get_string_descriptor_ascii@16 @119
-    libusb_getversion@0 @120
-    libusb_handle_events@4 @121
-    libusb_handle_events_locked@8 @122
-    libusb_handle_events_timeout@8 @123
-    libusb_init@4 @124
-    libusb_interrupt_transfer@24 @125
-    libusb_kernel_driver_active@8 @126
-    libusb_lock_event_waiters@4 @127
-    libusb_lock_events@4 @128
-    libusb_open@8 @129
-    libusb_open_device_with_vid_pid@12 @130
-    libusb_pollfds_handle_timeouts@4 @131
-    libusb_ref_device@4 @132
-    libusb_release_interface@8 @133
-    libusb_reset_device@4 @134
-    libusb_set_configuration@8 @135
-    libusb_set_debug@8 @136
-    libusb_set_interface_alt_setting@12 @137
-    libusb_set_pollfd_notifiers@16 @138
-    libusb_strerror@4 @139
-    libusb_submit_transfer@4 @140
-    libusb_try_lock_events@4 @141
-    libusb_unlock_event_waiters@4 @142
-    libusb_unlock_events@4 @143
-    libusb_unref_device@4 @144
-    libusb_version_internal @145 DATA
-    libusb_wait_for_event@8 @146
-    numOfErrors @147 DATA
-    numOfPackets @148 DATA
-    openCommunication @149
-    openRobotComm @150
-    overlapped_to_winfd @151
-    pipe_number @152 DATA
-    poll_fd @153 DATA
-    proxAmbientValue @154 DATA
-    proxValue @155 DATA
-    redLed @156 DATA
-    request_count @157 DATA
-    resetFlagTX @158
-    reset_overlapped @159
-    rightMotSteps @160 DATA
-    rightSpeed @161 DATA
-    robTheta @162 DATA
-    robXPos @163 DATA
-    robYPos @164 DATA
-    robotAddress @165 DATA
-    robotIsCharged @166
-    robotIsCharging @167
-    selector @168 DATA
-    setBlue @169
-    setGreen @170
-    setLeftSpeed @171
-    setRed @172
-    setRightSpeed @173
-    setRobotAddress @174
-    setSmallLed @175
-    sleepEnabledFlag @176 DATA
-    smallLeds @177 DATA
-    speed @178
-    startOdometryCalibration @179
-    timer_mutex @180 DATA
-    timer_request @181 DATA
-    timer_response @182 DATA
-    timer_thread @183 DATA
-    timer_tp @184 DATA
-    transferData @185
-    turnOffAllIRs @186
-    turnOffBackIR @187
-    turnOffFrontIRs @188
-    turnOffSmallLeds @189
-    turnOnAllIRs @190
-    turnOnBackIR @191
-    turnOnFrontIRs @192
-    turnOnSmallLeds @193
-    tvRemote @194 DATA
-    upperize @195
-    usb_api_backend @196 DATA
-    usb_receive @197
-    usb_send @198
-    usbi_add_pollfd @199
-    usbi_alloc_device @200
-    usbi_backend @201 DATA
-    usbi_close @202
-    usbi_cond_broadcast @203
-    usbi_cond_destroy @204
-    usbi_cond_init @205
-    usbi_cond_signal @206
-    usbi_cond_timedwait @207
-    usbi_cond_wait @208
-    usbi_create_fd @209
-    usbi_default_context @210 DATA
-    usbi_fd_notification @211
-    usbi_free_fd @212
-    usbi_get_config_index_by_value @213
-    usbi_get_device_by_session_id @214
-    usbi_handle_disconnect @215
-    usbi_handle_transfer_cancellation @216
-    usbi_handle_transfer_completion @217
-    usbi_io_exit @218
-    usbi_io_init @219
-    usbi_log @220
-    usbi_log_v @221
-    usbi_mutex_destroy @222
-    usbi_mutex_init @223
-    usbi_mutex_lock @224
-    usbi_mutex_static_lock @225
-    usbi_mutex_static_unlock @226
-    usbi_mutex_trylock @227
-    usbi_mutex_unlock @228
-    usbi_parse_descriptor @229
-    usbi_pipe @230
-    usbi_poll @231
-    usbi_read @232
-    usbi_remove_pollfd @233
-    usbi_sanitize_device @234
-    usbi_write @235
-    windows_backend @236 DATA
-    windows_clock_gettime_threaded@4 @237
-    windows_version @238 DATA
-    winusb_driver_names @239 DATA
+    calibrateOdomSent @23 DATA
+    calibrateSensors @24
+    calibrationSent @25 DATA
+    cancel_io @26
+    closeCommunication @27
+    closeRobotComm @28
+    commThread @29 DATA
+    commThreadId @30 DATA
+    composite_driver_names @31 DATA
+    computeVerticalAngle @32
+    create_overlapped @33
+    disableCliffAvoidance @34
+    disableObstacleAvoidance @35
+    disableSleep @36
+    disableTVRemote @37
+    discovered_devs_append @38
+    enableCliffAvoidance @39
+    enableObstacleAvoidance @40
+    enableSleep @41
+    enableTVRemote @42
+    epoch_time @43 DATA
+    errorPercentage @44 DATA
+    exit_polling @45
+    fd_to_winfd @46
+    flagsRX @47 DATA
+    flagsTX @48 DATA
+    free_overlapped @49
+    getAccX @50
+    getAccY @51
+    getAccZ @52
+    getAllGround @53
+    getAllGroundAmbient @54
+    getAllProximity @55
+    getAllProximityAmbient @56
+    getBatteryAdc @57
+    getBatteryPercent @58
+    getFlagRX @59
+    getFlagTX @60
+    getGround @61
+    getGroundAmbient @62
+    getIdFromAddress @63
+    getLeftMotSteps @64
+    getOdomTheta @65
+    getOdomXpos @66
+    getOdomYpos @67
+    getProximity @68
+    getProximityAmbient @69
+    getRFQuality @70
+    getRightMotSteps @71
+    getSelector @72
+    getTVRemoteCommand @73
+    getVerticalAngle @74
+    greenLed @75 DATA
+    groundAmbientValue @76 DATA
+    groundValue @77 DATA
+    handle_to_winfd @78
+    hires_frequency @79 DATA
+    hires_ticks_to_ps @80 DATA
+    htab_filled @81 DATA
+    htab_size @82 DATA
+    htab_table @83 DATA
+    htab_write_mutex @84 DATA
+    hub_driver_names @85 DATA
+    init_polling @86
+    is_polling_set @87 DATA
+    lastMessageSentFlag @88 DATA
+    leftMotSteps @89 DATA
+    leftSpeed @90 DATA
+    libusb_alloc_transfer@4 @91
+    libusb_attach_kernel_driver@8 @92
+    libusb_bulk_transfer@24 @93
+    libusb_cancel_transfer@4 @94
+    libusb_claim_interface@8 @95
+    libusb_clear_halt@8 @96
+    libusb_close@4 @97
+    libusb_control_transfer@32 @98
+    libusb_detach_kernel_driver@8 @99
+    libusb_event_handler_active@4 @100
+    libusb_event_handling_ok@4 @101
+    libusb_exit@4 @102
+    libusb_free_config_descriptor@4 @103
+    libusb_free_device_list@8 @104
+    libusb_free_transfer@4 @105
+    libusb_get_active_config_descriptor@8 @106
+    libusb_get_bus_number@4 @107
+    libusb_get_config_descriptor@12 @108
+    libusb_get_config_descriptor_by_value@12 @109
+    libusb_get_configuration@8 @110
+    libusb_get_device@4 @111
+    libusb_get_device_address@4 @112
+    libusb_get_device_descriptor@8 @113
+    libusb_get_device_list@8 @114
+    libusb_get_max_iso_packet_size@8 @115
+    libusb_get_max_packet_size@8 @116
+    libusb_get_next_timeout@8 @117
+    libusb_get_parent@4 @118
+    libusb_get_pollfds@4 @119
+    libusb_get_port_number@4 @120
+    libusb_get_port_path@16 @121
+    libusb_get_string_descriptor_ascii@16 @122
+    libusb_getversion@0 @123
+    libusb_handle_events@4 @124
+    libusb_handle_events_locked@8 @125
+    libusb_handle_events_timeout@8 @126
+    libusb_init@4 @127
+    libusb_interrupt_transfer@24 @128
+    libusb_kernel_driver_active@8 @129
+    libusb_lock_event_waiters@4 @130
+    libusb_lock_events@4 @131
+    libusb_open@8 @132
+    libusb_open_device_with_vid_pid@12 @133
+    libusb_pollfds_handle_timeouts@4 @134
+    libusb_ref_device@4 @135
+    libusb_release_interface@8 @136
+    libusb_reset_device@4 @137
+    libusb_set_configuration@8 @138
+    libusb_set_debug@8 @139
+    libusb_set_interface_alt_setting@12 @140
+    libusb_set_pollfd_notifiers@16 @141
+    libusb_strerror@4 @142
+    libusb_submit_transfer@4 @143
+    libusb_try_lock_events@4 @144
+    libusb_unlock_event_waiters@4 @145
+    libusb_unlock_events@4 @146
+    libusb_unref_device@4 @147
+    libusb_version_internal @148 DATA
+    libusb_wait_for_event@8 @149
+    messageIsSent @150
+    numOfErrors @151 DATA
+    numOfPackets @152 DATA
+    openCommunication @153
+    openRobotComm @154
+    overlapped_to_winfd @155
+    pipe_number @156 DATA
+    poll_fd @157 DATA
+    proxAmbientValue @158 DATA
+    proxValue @159 DATA
+    redLed @160 DATA
+    request_count @161 DATA
+    resetFlagTX @162
+    resetTxFlag @163
+    reset_overlapped @164
+    rightMotSteps @165 DATA
+    rightSpeed @166 DATA
+    robTheta @167 DATA
+    robXPos @168 DATA
+    robYPos @169 DATA
+    robotAddress @170 DATA
+    robotIsCharged @171
+    robotIsCharging @172
+    selector @173 DATA
+    setBlue @174
+    setGreen @175
+    setLeftSpeed @176
+    setRed @177
+    setRightSpeed @178
+    setRobotAddress @179
+    setSmallLed @180
+    sleepEnabledFlag @181 DATA
+    smallLeds @182 DATA
+    speed @183
+    startOdometryCalibration @184
+    timer_mutex @185 DATA
+    timer_request @186 DATA
+    timer_response @187 DATA
+    timer_thread @188 DATA
+    timer_tp @189 DATA
+    transferData @190
+    turnOffAllIRs @191
+    turnOffBackIR @192
+    turnOffFrontIRs @193
+    turnOffSmallLeds @194
+    turnOnAllIRs @195
+    turnOnBackIR @196
+    turnOnFrontIRs @197
+    turnOnSmallLeds @198
+    tvRemote @199 DATA
+    upperize @200
+    usb_api_backend @201 DATA
+    usb_receive @202
+    usb_send @203
+    usbi_add_pollfd @204
+    usbi_alloc_device @205
+    usbi_backend @206 DATA
+    usbi_close @207
+    usbi_cond_broadcast @208
+    usbi_cond_destroy @209
+    usbi_cond_init @210
+    usbi_cond_signal @211
+    usbi_cond_timedwait @212
+    usbi_cond_wait @213
+    usbi_create_fd @214
+    usbi_default_context @215 DATA
+    usbi_fd_notification @216
+    usbi_free_fd @217
+    usbi_get_config_index_by_value @218
+    usbi_get_device_by_session_id @219
+    usbi_handle_disconnect @220
+    usbi_handle_transfer_cancellation @221
+    usbi_handle_transfer_completion @222
+    usbi_io_exit @223
+    usbi_io_init @224
+    usbi_log @225
+    usbi_log_v @226
+    usbi_mutex_destroy @227
+    usbi_mutex_init @228
+    usbi_mutex_lock @229
+    usbi_mutex_static_lock @230
+    usbi_mutex_static_unlock @231
+    usbi_mutex_trylock @232
+    usbi_mutex_unlock @233
+    usbi_parse_descriptor @234
+    usbi_pipe @235
+    usbi_poll @236
+    usbi_read @237
+    usbi_remove_pollfd @238
+    usbi_sanitize_device @239
+    usbi_write @240
+    windows_backend @241 DATA
+    windows_clock_gettime_threaded@4 @242
+    windows_version @243 DATA
+    winusb_driver_names @244 DATA

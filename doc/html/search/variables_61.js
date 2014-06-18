@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['accx',['accX',['../elisa3-lib_8c.html#af437a94bf78d068b11d0a53a3254a6e9',1,'elisa3-lib.c']]],
-  ['accy',['accY',['../elisa3-lib_8c.html#a2938ea6eaa2adfad9931006e099b58c5',1,'elisa3-lib.c']]],
-  ['accz',['accZ',['../elisa3-lib_8c.html#ab3be09823784764a8b2d58fb9181d645',1,'elisa3-lib.c']]]
+  ['accx',['accX',['../elisa3-lib_8c.html#aa751dcdf0f55293af3f927fca2f49f63',1,'elisa3-lib.c']]],
+  ['accy',['accY',['../elisa3-lib_8c.html#a22d9bfe654bd85ae273b597d03450761',1,'elisa3-lib.c']]],
+  ['accz',['accZ',['../elisa3-lib_8c.html#a45f7beaf55d3693afe1987206952a1e7',1,'elisa3-lib.c']]]
 ];

@@ -5,16 +5,18 @@
 #include "usb-comm.h"
 
 /**
- * \brief To be called once at the beginning, it init the USB communication with the RF module that is responsible to send data to the robots.
+ * \brief To be called once at the beginning, it init the USB communication with the RF module that is responsible to send data to the robots and initialize the list of robots to be controlled; max number of simultaneous robots is 100.
+ * \param robotAddr array list of robot addresses to be handled.
+ * \param numRobots the array size (number of robots to handle).
  * \return none
  */
-void openRobotComm();
+void startCommunication(int *robotAddr, int numRobots);
 
 /**
  * \brief To be called once at the end, it closes the USB communication.
  * \return none
  */
-void closeRobotComm();
+void stopCommunication();
 
 /**
  * \brief Set the left speed of the robot.
@@ -33,18 +35,18 @@ void setLeftSpeed(int robotAddr, char value);
 void setRightSpeed(int robotAddr, char value);
 
 /**
- * \brief Set the left speed of all the 4 robots handled in a packet.
+ * \brief Set the left speed of all the robots specified in the list.
  * \param value The speed array, range is between -128 to 127.
  * \return none
  */
-void setLeftSpeed4(char value[4]);
+void setLeftSpeedForAll(char *value);
 
 /**
- * \brief Set the right speed of all the 4 robots handled in a packet.
+ * \brief Set the right speed of all the robots specified in the list.
  * \param value The speed array, range is between -128 to 127.
  * \return none
  */
-void setRightSpeed4(char value[4]);
+void setRightSpeedForAll(char *value);
 
 /**
  * \brief Set the red intensity of the RGB led on the robot.
@@ -71,25 +73,25 @@ void setGreen(int robotAddr, unsigned char value);
 void setBlue(int robotAddr, unsigned char value);
 
 /**
- * \brief Set the red intensity of the RGB led of all the 4 robots handled in a packet.
+ * \brief Set the red intensity of the RGB led of all the robots specified in the list.
  * \param value The intensity array, range is between 0 (led off) to 100 (max power).
  * \return none
  */
-void setRed4(unsigned char value[4]);
+void setRedForAll(unsigned char *value);
 
 /**
- * \brief Set the green intensity of the RGB led of all the 4 robots handled in a packet.
+ * \brief Set the green intensity of the RGB led of all the robots specified in the list.
  * \param value The intensity array, range is between 0 (led off) to 100 (max power).
  * \return none
  */
-void setGreen4(unsigned char value[4]);
+void setGreenForAll(unsigned char *value);
 
 /**
- * \brief Set the blue intensity of the RGB led of all the 4 robots handled in a packet.
+ * \brief Set the blue intensity of the RGB led of all all the robots specified in the list.
  * \param value The intensity array, range is between 0 (led off) to 100 (max power).
  * \return none
  */
-void setBlue4(unsigned char value[4]);
+void setBlueForAll(unsigned char *value);
 
 /**
  * \brief Turn on both the front IRs transmitter on the robot.
@@ -169,10 +171,10 @@ void disableSleep(int robotAddr);
 void calibrateSensors(int robotAddr);
 
 /**
- * \brief Calibrate the sensors of all the 4 robots handled in a packet (proximity, accelerometer).
+ * \brief Calibrate the sensors (proximity, accelerometer) of all the robots specified in the list.
  * \return none
  */
-void calibrateSensors4();
+void calibrateSensorsForAll();
 
 /**
  * \brief Enable the onboard obstacle avoidance.
@@ -203,12 +205,20 @@ void enableCliffAvoidance(int robotAddr);
 void disableCliffAvoidance(int robotAddr);
 
 /**
- * \brief Set the addresses of the 4 robots for the current packet transfer. It has to be called 4 times to set all addresses.
- * \param robotIndex from 0 to 3
- * \param robotAddr the address of one robot
+ * \brief Set the address of a robot related to a particular index, the index must be in the range of the robot list size.
+ * \param robotIndex from 0 to number of robots - 1 (set with "setRobotAddresses" function)
+ * \param robotAddr the address of the robot
  * \return none
  */
 void setRobotAddress(int robotIndex, int robotAddr);
+
+/**
+ * \brief Set the addresses of the robots that need to be controlled; max number of simultaneous robots is 100.
+ * \param robotAddr array list of robot addresses to be handled.
+ * \param numRobots the array size (number of robots to handle).
+ * \return none
+ */
+void setRobotAddresses(int *robotAddr, int numRobots);
 
 /**
  * \brief Request one of the proximity sensors value of the robot.
@@ -275,32 +285,32 @@ void getAllGround(int robotAddr, unsigned int* groundArr);
 void getAllGroundAmbient(int robotAddr, unsigned int* groundArr);
 
 /**
- * \brief Request all the proximity sensors values of all the 4 robots handled in a packet at once.
- * \param proxArr destination matrix for the proximity values (size must be 4x8).
+ * \brief Request all the proximity sensors values of all the robots specified in the list.
+ * \param proxArr destination matrix for the proximity values (size must be list_size x 8).
  * \return none
  */
-void getAllProximity4(unsigned int proxArr[4][8]);
+void getAllProximityFromAll(unsigned int proxArr[][8]);
 
 /**
- * \brief Request all the ambient values (from proximity sensors) of all the 4 robots handled in packet at once.
- * \param proxArr destination matrix for the ambient values (size must be 4x8).
+ * \brief Request all the ambient values (from proximity sensors) of all the robots specified in the list.
+ * \param proxArr destination matrix for the ambient values (size must be list_size x 8).
  * \return none
  */
-void getAllProximityAmbient4(unsigned int proxArr[4][8]);
+void getAllProximityAmbientFromAll(unsigned int proxArr[][8]);
 
 /**
- * \brief Request all the ground sensors values of all the 4 robots handled in a packet at once.
- * \param groundArr destination matrix for the ground values (size must be 4x4).
+ * \brief Request all the ground sensors values of all the robots specified in the list.
+ * \param groundArr destination matrix for the ground values (size must be list_size x 4).
  * \return none
  */
-void getAllGround4(unsigned int groundArr[4][4]);
+void getAllGroundFromAll(unsigned int groundArr[][4]);
 
 /**
- * \brief Request all the ambient values (from ground sensors) of all the 4 robots handled in a packet at once.
- * \param groundArr destination matrix for the ambient values (size must be 4x4).
+ * \brief Request all the ambient values (from ground sensors) of all the robots specified in the list.
+ * \param groundArr destination matrix for the ambient values (size must be list_size x 4).
  * \return none
  */
-void getAllGroundAmbient4(unsigned int groundArr[4][4]);
+void getAllGroundAmbientFromAll(unsigned int groundArr[][4]);
 
 /**
  * \brief Request the raw battery value, it contains the sampled value of the battery.
@@ -416,6 +426,18 @@ void startOdometryCalibration(int robotAddr);
 void transferData();
 
 /**
+ * \brief This function stop the transmission of the packets to the robots.
+ * \return none.
+ */
+void stopTransferData();
+
+/**
+ * \brief This function resume the transmission of the packets to the robots.
+ * \return none.
+ */
+void resumeTransferData();
+
+/**
  * \brief Tell whether the robot is charging or not.
  * \param robotAddr the address of the robot from which receive data.
  * \return 0 not charging, 1 robot is charging.
@@ -484,11 +506,105 @@ double getRFQuality(int robotAddr);
  * \param robotAddr the address of the robot for which to change data.
  * \return none.
  */
-void resetTxFlag(int robotAddr);
+void resetMessageIsSentFlag(int robotAddr);
 
 /**
- * \brief Request if the last modified packet is sent to the robot; this function is thought to be used in polling mode (continue to check whether the message is sent untill it is actually sent).
- * \param robotAddr the address of the robot from which receive data..
+ * \brief Request if the last modified packet is sent to the robot; this function is thought to be used in polling mode (continue to check whether the message is sent untill it is actually sent). Before the polling the function "resetMessageIsSentFlag" need to be called. It can be used for both check whether the robots received the new messages and to know when new data from the robots are available.
+ * \param robotAddr the address of the robot from which receive data.
  * \return 0 if message not received by the robot, 1 if message sent correctly.
  */
 unsigned char messageIsSent(int robotAddr);
+
+/**
+ * \brief Wait for the message to be actually sent to the robot; if the robot isn't reachable (out of range, discharged, ...) then the function will exit after the amount of time specified as parameter even if the robot doesn't receive the data.
+ * \param robotAddr the address of the robot for which to change data.
+ * \param us function timeout given in microseconds
+ * \return 0 if message sent, 1 otherwise.
+ */
+unsigned char waitForMessageTransmission(int robotAddr, unsigned long us);
+
+/**
+ * \brief Set all the values of a robot at one time.
+ * \param robotAddr the address of the robot for which to change data.
+ * \param red, green, red RGB channels intensity, range is between 0 (led off) to 100 (max power).
+ * \param flags raw flag bytes:
+ * byte0:
+ * - first two bits are dedicated to the IRs:
+ *   0x00 => all IRs off
+ *   0x01 => back IR on
+ *   0x02 => front IRs on
+ *   0x03 => all IRs on
+ * - third bit is used for enabling/disablng IR remote control (0=>diabled, 1=>enabled)
+ * - fourth bit is used for sleep (1 => go to sleep for 1 minute)
+ * - fifth bit is used to calibrate all sensors (proximity, ground, accelerometer)
+ * - sixth bits is reserved (used by radio station)
+ * - seventh bit is used for enabling/disabling onboard obstacle avoidance
+ * - eight bit is used for enabling/disabling onboard cliff avoidance
+ * byte1:
+ * - first is used for starting odometry calibration
+ * \param left, right left and right speed, range is -128..127.
+ * \param leds raw byte value for small green leds (bit0=0/1 turn off/on led0, bit1=0/1 turn off/on led1, ...).
+ * \return none.
+ */
+void setCompletePacket(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds);
+
+/**
+ * \brief Set all the values of all the robots specified in the list.
+ * \param robotAddr array the addresses of the robots for which to change data.
+ * \param red, green, red arrays RGB channels intensity, range is between 0 (led off) to 100 (max power).
+ * \param flags array raw flag bytes:
+ * byte0:
+ * - first two bits are dedicated to the IRs:
+ *   0x00 => all IRs off
+ *   0x01 => back IR on
+ *   0x02 => front IRs on
+ *   0x03 => all IRs on
+ * - third bit is used for enabling/disablng IR remote control (0=>diabled, 1=>enabled)
+ * - fourth bit is used for sleep (1 => go to sleep for 1 minute)
+ * - fifth bit is used to calibrate all sensors (proximity, ground, accelerometer)
+ * - sixth bits is reserved (used by radio station)
+ * - seventh bit is used for enabling/disabling onboard obstacle avoidance
+ * - eight bit is used for enabling/disabling onboard cliff avoidance
+ * byte1:
+ * - first is used for starting odometry calibration
+ * \param left, right arrays left and right speed, range is -128..127.
+ * \param leds array raw byte value for small green leds (bit0=0/1 turn off/on led0, bit1=0/1 turn off/on led1, ...).
+ * \return none.
+ */
+void setCompletePacketForAll(int *robotAddr, char *red, char *green, char *blue, char flags[][2], char *left, char *right, char *leds);
+
+/**
+ * \brief Wait for updated data coming from the robot; if the robot isn't reachable (out of range, discharged, ...) then the function will exit after the amount of time specified as parameter even if no data are received. this function can be used also to check whether a message is successfully sent to a robot or not.
+ * \param robotAddr the address of the robot from which receive data.
+ * \param us function timeout given in microseconds
+ * \return 0 if updated data received, 1 otherwise.
+ */
+unsigned char waitForUpdate(int robotAddr, unsigned long us);
+
+/**
+ * \brief Send a message to a particular robot resetting the list of robots to a single one (all previous address set with "startCommunication" will be lost).
+ * \param robotAddr the address of the robot for which to change data.
+ * \param red, green, red RGB channels intensity, range is between 0 (led off) to 100 (max power).
+ * \param flags raw flag bytes:
+ * byte0:
+ * - first two bits are dedicated to the IRs:
+ *   0x00 => all IRs off
+ *   0x01 => back IR on
+ *   0x02 => front IRs on
+ *   0x03 => all IRs on
+ * - third bit is used for enabling/disablng IR remote control (0=>diabled, 1=>enabled)
+ * - fourth bit is used for sleep (1 => go to sleep for 1 minute)
+ * - fifth bit is used to calibrate all sensors (proximity, ground, accelerometer)
+ * - sixth bits is reserved (used by radio station)
+ * - seventh bit is used for enabling/disabling onboard obstacle avoidance
+ * - eight bit is used for enabling/disabling onboard cliff avoidance
+ * byte1:
+ * - first is used for starting odometry calibration
+ * \param left, right left and right speed, range is -128..127.
+ * \param leds raw byte value for small green leds (bit0=0/1 turn off/on led0, bit1=0/1 turn off/on led1, ...).
+ * \param us function timeout given in microseconds
+ * \return 0 if message sent succesfully, 1 otherwise.
+ */
+unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds, unsigned long us);
+
+

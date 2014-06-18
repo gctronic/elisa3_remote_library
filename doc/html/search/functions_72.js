@@ -1,7 +1,8 @@
 var searchData=
 [
   ['resetflagtx',['resetFlagTX',['../elisa3-lib_8c.html#a867388ae76ad41d518daf5065b61507c',1,'resetFlagTX(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a867388ae76ad41d518daf5065b61507c',1,'resetFlagTX(int robotAddr):&#160;elisa3-lib.c']]],
-  ['resettxflag',['resetTxFlag',['../elisa3-lib_8c.html#a2bc15ee3a5bb8752bb9862abafc017b4',1,'resetTxFlag(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a2bc15ee3a5bb8752bb9862abafc017b4',1,'resetTxFlag(int robotAddr):&#160;elisa3-lib.c']]],
+  ['resetmessageissentflag',['resetMessageIsSentFlag',['../elisa3-lib_8c.html#a03953ee5d30ef0f4f25548927b45c13a',1,'resetMessageIsSentFlag(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a03953ee5d30ef0f4f25548927b45c13a',1,'resetMessageIsSentFlag(int robotAddr):&#160;elisa3-lib.c']]],
+  ['resumetransferdata',['resumeTransferData',['../elisa3-lib_8c.html#a3ebd8b9081d003e0ef2c072243b79ab4',1,'resumeTransferData():&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a3ebd8b9081d003e0ef2c072243b79ab4',1,'resumeTransferData():&#160;elisa3-lib.c']]],
   ['robotischarged',['robotIsCharged',['../elisa3-lib_8c.html#a45261bc6251d2939325a7ede5a9dfe37',1,'robotIsCharged(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a45261bc6251d2939325a7ede5a9dfe37',1,'robotIsCharged(int robotAddr):&#160;elisa3-lib.c']]],
   ['robotischarging',['robotIsCharging',['../elisa3-lib_8c.html#a576a1dc52a8b662f52aa93f6c22e8c2c',1,'robotIsCharging(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a576a1dc52a8b662f52aa93f6c22e8c2c',1,'robotIsCharging(int robotAddr):&#160;elisa3-lib.c']]]
 ];

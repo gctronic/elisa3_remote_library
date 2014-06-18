@@ -11,6 +11,6 @@ var searchData=
   ['turnonsmallleds',['turnOnSmallLeds',['../elisa3-lib_8c.html#a891635ad934db8d4ee69d7a44b02e601',1,'turnOnSmallLeds(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a891635ad934db8d4ee69d7a44b02e601',1,'turnOnSmallLeds(int robotAddr):&#160;elisa3-lib.c']]],
   ['tv_5fremote_5foff',['TV_REMOTE_OFF',['../elisa3-lib_8c.html#a0ee558c654858d3cc710b12a3be14fd1',1,'elisa3-lib.c']]],
   ['tv_5fremote_5fon',['TV_REMOTE_ON',['../elisa3-lib_8c.html#a627bcd607203209fcbbb03c825e9a902',1,'elisa3-lib.c']]],
-  ['tvremote',['tvRemote',['../elisa3-lib_8c.html#a0354b92782e689e2cec87b0e15d5d7bd',1,'elisa3-lib.c']]],
+  ['tvremote',['tvRemote',['../elisa3-lib_8c.html#a15de6d2d54a817fd54caaac78a9d308f',1,'elisa3-lib.c']]],
   ['tx_5fbuffer',['TX_buffer',['../elisa3-lib_8c.html#a0855ad04c0d4bebd7be7a4f97396b77f',1,'elisa3-lib.c']]]
 ];

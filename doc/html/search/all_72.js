@@ -4,6 +4,7 @@ var searchData=
   ['redled',['redLed',['../elisa3-lib_8c.html#a20c4975645d2285468324b8fd977f36b',1,'elisa3-lib.c']]],
   ['resetflagtx',['resetFlagTX',['../elisa3-lib_8c.html#a867388ae76ad41d518daf5065b61507c',1,'resetFlagTX(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a867388ae76ad41d518daf5065b61507c',1,'resetFlagTX(int robotAddr):&#160;elisa3-lib.c']]],
   ['resetmessageissentflag',['resetMessageIsSentFlag',['../elisa3-lib_8c.html#a03953ee5d30ef0f4f25548927b45c13a',1,'resetMessageIsSentFlag(int robotAddr):&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a03953ee5d30ef0f4f25548927b45c13a',1,'resetMessageIsSentFlag(int robotAddr):&#160;elisa3-lib.c']]],
+  ['resetrobotdata',['resetRobotData',['../elisa3-lib_8c.html#a54c3c7a0345a7b0a28f8cc5a0a3abbff',1,'elisa3-lib.c']]],
   ['resumetransferdata',['resumeTransferData',['../elisa3-lib_8c.html#a3ebd8b9081d003e0ef2c072243b79ab4',1,'resumeTransferData():&#160;elisa3-lib.c'],['../elisa3-lib_8h.html#a3ebd8b9081d003e0ef2c072243b79ab4',1,'resumeTransferData():&#160;elisa3-lib.c']]],
   ['rightmotsteps',['rightMotSteps',['../elisa3-lib_8c.html#adcdb84652664306340f157be115d48f6',1,'elisa3-lib.c']]],
   ['rightspeed',['rightSpeed',['../elisa3-lib_8c.html#a4005ab9e2ac18411706d7e3ce7c0f453',1,'elisa3-lib.c']]],

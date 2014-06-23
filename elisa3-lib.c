@@ -102,9 +102,15 @@ char TX_buffer[64]={0};         // Next packet to send to base station
 #ifdef _WIN32
 DWORD commThreadId;
 HANDLE commThread;
+HANDLE mutexTx;
+HANDLE mutexRx;
+HANDLE mutexThread;
 #endif
 #if defined(__linux__) || defined(__APPLE__)
 pthread_t commThread;
+pthread_mutex_t mutexTx;
+pthread_mutex_t mutexRx;
+pthread_mutex_t mutexThread;
 #endif
 double numOfErrors[100], numOfPackets=0, errorPercentage[100];
 unsigned char lastMessageSentFlag[100];
@@ -113,6 +119,7 @@ unsigned char calibrateOdomSent[100];
 unsigned char stopTransmissionFlag = 0;
 unsigned int currNumRobots = 0;
 unsigned int currPacketId = 0;
+unsigned char usbCommOpenedFlag = 0;
 
 // functions declaration
 #ifdef _WIN32
@@ -155,20 +162,37 @@ int getIdFromAddress(int address) {
 }
 
 void startCommunication(int *robotAddr, int numRobots) {
+    if(usbCommOpenedFlag==1) {
+        return;
+    }
     openCommunication();
     TX_buffer[0]=0x27;
 
 #ifdef _WIN32
     commThread = CreateThread(NULL, 0, CommThread, NULL, 0, &commThreadId);
+    mutexTx = CreateMutex(NULL, FALSE, NULL);
+    mutexRx = CreateMutex(NULL, FALSE, NULL);
+    mutexThread = CreateMutex(NULL, FALSE, NULL);
 #endif
 
 #if defined(__linux__) || defined(__APPLE__)
     if(pthread_create(&commThread, NULL, CommThread, NULL)) {
         fprintf(stderr, "Error creating thread\n");
     }
+    if (pthread_mutex_init(&mutexTx, NULL) != 0) {
+        printf("\n mutex init failed\n");
+    }
+    if (pthread_mutex_init(&mutexRx, NULL) != 0) {
+        printf("\n mutex init failed\n");
+    }
+    if (pthread_mutex_init(&mutexThread, NULL) != 0) {
+        printf("\n mutex init failed\n");
+    }
 #endif
 
     setRobotAddresses(robotAddr, numRobots);
+
+    usbCommOpenedFlag = 1;
 
 }
 
@@ -178,44 +202,134 @@ void stopCommunication() {
 #ifdef _WIN32
     TerminateThread(commThread, 0);
     CloseHandle(commThread);
+    CloseHandle(mutexTx);
+    CloseHandle(mutexRx);
+    CloseHandle(mutexThread);
 #endif
 
 #if defined(__linux__) || defined(__APPLE__)
 	pthread_cancel(commThread);
+	pthread_mutex_destroy(&mutexTx);
+	pthread_mutex_destroy(&mutexRx);
+	pthread_mutex_destroy(&mutexThread);
 #endif
 
+    usbCommOpenedFlag = 0;
+
+}
+
+void setMutexTx() {
+#ifdef _WIN32
+    WaitForSingleObject(mutexTx, INFINITE);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_lock(&mutexTx);
+#endif
+}
+
+void freeMutexTx() {
+#ifdef _WIN32
+    ReleaseMutex(mutexTx);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_unlock(&mutexTx);
+#endif
+}
+
+void setMutexRx() {
+#ifdef _WIN32
+    WaitForSingleObject(mutexRx, INFINITE);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_lock(&mutexRx);
+#endif
+}
+
+void freeMutexRx() {
+#ifdef _WIN32
+    ReleaseMutex(mutexRx);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_unlock(&mutexRx);
+#endif
+}
+
+void setMutexThread() {
+#ifdef _WIN32
+    WaitForSingleObject(mutexThread, INFINITE);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_lock(&mutexThread);
+#endif
+}
+
+void freeMutexThread() {
+#ifdef _WIN32
+    ReleaseMutex(mutexThread);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_unlock(&mutexThread);
+#endif
+}
+
+unsigned char checkConcurrency(int id) {
+    int packetId = currPacketId;
+    if(id>=(packetId*4+0) && id<=(packetId*4+3)) {    // the current robot data could be accessed concurrently so beware!
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void setLeftSpeed(int robotAddr, char value) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         leftSpeed[id] = value;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void setRightSpeed(int robotAddr, char value) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         rightSpeed[id] = value;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void setLeftSpeedForAll(char *value) {
     int i = 0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         leftSpeed[i] = value[i];
     }
+    freeMutexTx();
 }
 
 void setRightSpeedForAll(char *value) {
     int i = 0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         rightSpeed[i] = value[i];
     }
+    freeMutexTx();
 }
 
 void setRed(int robotAddr, unsigned char value) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
         if(value < 0) {
             value = 0;
@@ -223,12 +337,19 @@ void setRed(int robotAddr, unsigned char value) {
         if(value > 100) {
             value = 100;
         }
+        if(enableMut) {
+            setMutexTx();
+        }
         redLed[id] = value;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void setGreen(int robotAddr, unsigned char value) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
         if(value < 0) {
             value = 0;
@@ -236,12 +357,19 @@ void setGreen(int robotAddr, unsigned char value) {
         if(value > 100) {
             value = 100;
         }
+        if(enableMut) {
+            setMutexTx();
+        }
         greenLed[id] = value;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void setBlue(int robotAddr, unsigned char value) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
         if(value < 0) {
             value = 0;
@@ -249,12 +377,19 @@ void setBlue(int robotAddr, unsigned char value) {
         if(value > 100) {
             value = 100;
         }
+        if(enableMut) {
+            setMutexTx();
+        }
         blueLed[id] = value;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void setRedForAll(unsigned char *value) {
     int i = 0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         if(value[i] < 0) {
             value[i] = 0;
@@ -264,10 +399,12 @@ void setRedForAll(unsigned char *value) {
         }
         redLed[i] = value[i];
     }
+    freeMutexTx();
 }
 
 void setGreenForAll(unsigned char *value) {
     int i = 0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         if(value[i] < 0) {
             value[i] = 0;
@@ -277,10 +414,12 @@ void setGreenForAll(unsigned char *value) {
         }
         greenLed[i] = value[i];
     }
+    freeMutexTx();
 }
 
 void setBlueForAll(unsigned char *value) {
     int i = 0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         if(value[i] < 0) {
             value[i] = 0;
@@ -290,231 +429,437 @@ void setBlueForAll(unsigned char *value) {
         }
         blueLed[i] = value[i];
     }
+    freeMutexTx();
 }
 
 void turnOnFrontIRs(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         FRONT_IR_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void turnOffFrontIRs(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         FRONT_IR_OFF(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void turnOnBackIR(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         BACK_IR_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void turnOffBackIR(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         BACK_IR_OFF(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void turnOnAllIRs(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         ALL_IR_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void turnOffAllIRs(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         ALL_IR_OFF(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void enableTVRemote(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         TV_REMOTE_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void disableTVRemote(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         TV_REMOTE_OFF(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void enableSleep(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         SLEEP_ON(flagsTX[id][0]);
         sleepEnabledFlag[id] = 1;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void disableSleep(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         SLEEP_OFF(flagsTX[id][0]);
         sleepEnabledFlag[id] = 0;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void enableObstacleAvoidance(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         OBSTACLE_AVOID_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void disableObstacleAvoidance(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         OBSTACLE_AVOID_OFF(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void enableCliffAvoidance(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         CLIFF_AVOID_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void disableCliffAvoidance(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         CLIFF_AVOID_OFF(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
+void resetRobotData(int robotIndex) {
+    redLed[robotIndex] = 0;
+    blueLed[robotIndex] = 0;
+    greenLed[robotIndex] = 0;
+    flagsTX[robotIndex][0] = 0;
+    rightSpeed[robotIndex] = 0;
+    leftSpeed[robotIndex] = 0;
+    smallLeds[robotIndex] = 0;
+    flagsTX[robotIndex][1] = 0;
+}
+
 void setRobotAddress(int robotIndex, int robotAddr) {
-    robotAddress[robotIndex] = robotAddr;
+    unsigned char enableMut=0;
+    if(robotIndex>=0 && robotIndex<=(currNumRobots-1)) {    // the index must be within the robots list size
+        enableMut = checkConcurrency(robotIndex);
+        if(enableMut) {
+            setMutexTx();
+        }
+        robotAddress[robotIndex] = robotAddr;
+        resetRobotData(robotIndex);
+        if(enableMut) {
+            freeMutexTx();
+        }
+        waitForUpdate(robotAddr, 100000);   // wait for the data of the current robot are received (otherwise old data of the previous robot would be sent to the user)
+    }
 }
 
 void setRobotAddresses(int *robotAddr, int numRobots) {
     int i = 0;
+    setMutexTx();
     for(i=0; i<numRobots; i++) {
         robotAddress[i] = robotAddr[i];
+        resetRobotData(i);
     }
+    freeMutexTx();
+    for(i=0; i<numRobots; i+=4) {   // wait for correct data (data from current robots and not previous ones) received from all the robots
+        waitForUpdate(i, 100000);
+    }
+    waitForUpdate(numRobots-1, 100000); // if numRobots is a multiple of 8 then this call is useless...don't care
     currNumRobots = numRobots;
 }
 
 unsigned int getProximity(int robotAddr, int proxId) {
+    unsigned int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return proxValue[id][proxId];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = proxValue[id][proxId];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 unsigned int getProximityAmbient(int robotAddr, int proxId) {
+    unsigned int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return proxAmbientValue[id][proxId];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = proxAmbientValue[id][proxId];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 unsigned int getGround(int robotAddr, int groundId) {
+    unsigned int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return groundValue[id][groundId];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = groundValue[id][groundId];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 unsigned int getGroundAmbient(int robotAddr, int groundId) {
+    unsigned int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return groundAmbientValue[id][groundId];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = groundAmbientValue[id][groundId];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 void getAllProximity(int robotAddr, unsigned int* proxArr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     int i = 0;
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         for(i=0; i<8; i++) {
             proxArr[i] = proxValue[id][i];
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
 }
 
 void getAllProximityAmbient(int robotAddr, unsigned int* proxArr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     int i = 0;
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         for(i=0; i<8; i++) {
             proxArr[i] = proxAmbientValue[id][i];
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
 }
 
 void getAllGround(int robotAddr, unsigned int* groundArr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     int i = 0;
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         for(i=0; i<4; i++) {
             groundArr[i] = groundValue[id][i];
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
 }
 
 void getAllGroundAmbient(int robotAddr, unsigned int* groundArr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     int i = 0;
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         for(i=0; i<4; i++) {
             groundArr[i] = groundAmbientValue[id][i];
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
 }
 
 void getAllProximityFromAll(unsigned int proxArr[][8]) {
     int i = 0, j = 0;
+    setMutexRx();
     for(i=0; i<currNumRobots; i++) {
         for(j=0; j<8; j++) {
             proxArr[i][j] = proxValue[i][j];
         }
     }
+    freeMutexRx();
 }
 
 void getAllProximityAmbientFromAll(unsigned int proxArr[][8]) {
     int i = 0, j = 0;
+    setMutexRx();
     for(i=0; i<currNumRobots; i++) {
         for(j=0; j<8; j++) {
             proxArr[i][j] = proxAmbientValue[i][j];
         }
     }
+    freeMutexRx();
 }
 
 void getAllGroundFromAll(unsigned int groundArr[][4]) {
     int i = 0, j = 0;
+    setMutexRx();
     for(i=0; i<currNumRobots; i++) {
         for(j=0; j<4; j++) {
             groundArr[i][j] = groundValue[i][j];
         }
     }
+    freeMutexRx();
 }
 
 void getAllGroundAmbientFromAll(unsigned int groundArr[][4]) {
     int i = 0, j = 0;
+    setMutexRx();
     for(i=0; i<currNumRobots; i++) {
         for(j=0; j<4; j++) {
             groundArr[i][j] = groundAmbientValue[i][j];
         }
     }
+    freeMutexRx();
 }
 
 unsigned int getBatteryAdc(int robotAddr) {
+    unsigned int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         if(batteryAdc[id] >= 934) {           // 934 is the measured adc value when the battery is charged
             batteryPercent[id] = 100;
         } else if(batteryAdc[id] <= 780) {    // 780 is the measrued adc value when the battery is discharged
@@ -522,7 +867,11 @@ unsigned int getBatteryAdc(int robotAddr) {
         } else {
             batteryPercent[id] = (unsigned int)((float)((batteryAdc[id]-780.0)/(934.0-780.0))*100.0);
         }
-        return batteryAdc[id];
+        tempVal = batteryAdc[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
@@ -536,133 +885,258 @@ unsigned int getBatteryPercent(int robotAddr) {
 }
 
 signed int getAccX(int robotAddr) {
+    signed int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return accX[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = accX[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed int getAccY(int robotAddr) {
+    signed int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return accY[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = accY[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed int getAccZ(int robotAddr) {
+    signed int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return accZ[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = accZ[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 unsigned char getSelector(int robotAddr) {
+    unsigned char tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return selector[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = selector[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 unsigned char getTVRemoteCommand(int robotAddr) {
+    unsigned char tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return tvRemote[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = tvRemote[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed int getOdomTheta(int robotAddr) {
+    signed int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return robTheta[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = robTheta[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed int getOdomXpos(int robotAddr) {
+    signed int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return robXPos[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = robXPos[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed int getOdomYpos(int robotAddr) {
+    signed int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return robYPos[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = robYPos[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 void setSmallLed(int robotAddr, int ledId, int state) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         if(state==0) {
             smallLeds[id] &= ~(1<<ledId);
         } else {
             smallLeds[id] |= (1<<ledId);
+        }
+        if(enableMut) {
+            freeMutexTx();
         }
     }
 }
 
 void turnOffSmallLeds(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         smallLeds[id] = 0;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void turnOnSmallLeds(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         smallLeds[id] = 0xFF;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 int getVerticalAngle(int robotAddr) {
+    int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return computeVerticalAngle(accX[id], accY[id]);
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = computeVerticalAngle(accX[id], accY[id]);
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 void calibrateSensors(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         calibrationSent[id] = 0;
         CALIBRATION_ON(flagsTX[id][0]);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void calibrateSensorsForAll() {
     int i = 0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         calibrationSent[i] = 0;
         CALIBRATION_ON(flagsTX[i][0]);
     }
+    freeMutexTx();
 }
 
 void startOdometryCalibration(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
 		calibrateOdomSent[id] = 0;
         flagsTX[id][1] |= (1<<0);
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 unsigned char robotIsCharging(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         if((flagsRX[id]&0x01) == 0x01) {
             return 1;
         } else {
             return 0;
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
     return 0;
@@ -670,11 +1144,18 @@ unsigned char robotIsCharging(int robotAddr) {
 
 unsigned char robotIsCharged(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         if((flagsRX[id]&0x04) == 0x04) {
             return 1;
         } else {
             return 0;
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
     return 0;
@@ -682,11 +1163,18 @@ unsigned char robotIsCharged(int robotAddr) {
 
 unsigned char buttonIsPressed(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         if((flagsRX[id]&0x02) == 0x02) {
             return 1;
         } else {
             return 0;
+        }
+        if(enableMut) {
+            freeMutexRx();
         }
     }
     return 0;
@@ -694,9 +1182,16 @@ unsigned char buttonIsPressed(int robotAddr) {
 
 void resetFlagTX(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         flagsTX[id][0] = 0;
         flagsTX[id][1] = 0;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
@@ -709,42 +1204,86 @@ unsigned char getFlagTX(int robotAddr, int flagInd) {
 }
 
 unsigned char getFlagRX(int robotAddr) {
+    unsigned char tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return flagsRX[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = flagsRX[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed long int getLeftMotSteps(int robotAddr) {
+    signed long int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return leftMotSteps[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = leftMotSteps[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 signed long int getRightMotSteps(int robotAddr) {
+    signed long int tempVal=0;
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return rightMotSteps[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = rightMotSteps[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }
 
 void resetMessageIsSentFlag(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         lastMessageSentFlag[id] = 0;
+        if(enableMut) {
+            freeMutexRx();
+        }
     }
 }
 
 unsigned char messageIsSent(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
         if(lastMessageSentFlag[id]==3) {
+            if(enableMut) {
+                freeMutexRx();
+            }
             return 1;
         } else {
+            if(enableMut) {
+                freeMutexRx();
+            }
             return 0;
         }
     }
@@ -752,9 +1291,13 @@ unsigned char messageIsSent(int robotAddr) {
 }
 
 double getRFQuality(int robotAddr) {
+    double tempVal=0;
     int id = getIdFromAddress(robotAddr);
     if(id>=0) {
-        return 100.0-errorPercentage[id];
+        setMutexThread();
+        tempVal = 100.0-errorPercentage[id];
+        freeMutexThread();
+        return tempVal;
     }
     return -1;
 }
@@ -769,7 +1312,11 @@ void resumeTransferData() {
 
 void setCompletePacket(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds) {
     int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
+        if(enableMut) {
+            setMutexTx();
+        }
         redLed[id] = red;
         blueLed[id] = blue;
         greenLed[id] = green;
@@ -778,11 +1325,15 @@ void setCompletePacket(int robotAddr, char red, char green, char blue, char flag
         leftSpeed[id] = left;
         rightSpeed[id] = right;
         smallLeds[id] = leds;
+        if(enableMut) {
+            freeMutexTx();
+        }
     }
 }
 
 void setCompletePacketForAll(int *robotAddr, char *red, char *green, char *blue, char flags[][2], char *left, char *right, char *leds) {
     int i=0;
+    setMutexTx();
     for(i=0; i<currNumRobots; i++) {
         redLed[i] = red[i];
         blueLed[i] = blue[i];
@@ -794,25 +1345,13 @@ void setCompletePacketForAll(int *robotAddr, char *red, char *green, char *blue,
         smallLeds[i] = leds[i];
         robotAddress[i] = robotAddr[i];
     }
+    freeMutexTx();
 }
 
 unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds, unsigned long us) {
-
-    stopTransferData();
-
-    currNumRobots = 1;
-    robotAddress[0] = robotAddr;
-    redLed[0] = red;
-    blueLed[0] = blue;
-    greenLed[0] = green;
-    flagsTX[0][0] = flags[0];
-    flagsTX[0][1] = flags[1];
-    leftSpeed[0] = left;
-    rightSpeed[0] = right;
-    smallLeds[0] = leds;
-
-    resumeTransferData();
-
+    int robotAddrArr[1] = {robotAddr};
+    setRobotAddresses(robotAddrArr, 1);
+    setCompletePacket(robotAddr, red, green, blue, flags, left, right, leds);
     return waitForUpdate(robotAddr, us);
 }
 
@@ -861,6 +1400,13 @@ unsigned char waitForUpdate(int robotAddr, unsigned long us) {
 void transferData() {
 
     int err=0;
+
+#ifdef _WIN32
+    WaitForSingleObject(mutexTx, INFINITE);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_lock(&mutexTx);
+#endif
 
     // first robot
     if(sleepEnabledFlag[0] == 1) {
@@ -962,11 +1508,84 @@ void transferData() {
         TX_buffer[(3*ROBOT_PACKET_SIZE)+15] = robotAddress[currPacketId*4+3]&0xFF;
     }
 
+#ifdef _WIN32
+    ReleaseMutex(mutexTx);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_unlock(&mutexTx);
+#endif
+
     // transfer the data to the base-station
     err = usb_send(TX_buffer, PACKETS_SIZE-UNUSED_BYTES);
     if(err < 0) {
         printf("send error!\n");
     }
+
+#ifdef _WIN32
+    WaitForSingleObject(mutexTx, INFINITE);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_lock(&mutexTx);
+#endif
+	calibrationSent[currPacketId*4+0]++;
+	calibrationSent[currPacketId*4+1]++;
+	calibrationSent[currPacketId*4+2]++;
+	calibrationSent[currPacketId*4+3]++;
+
+	calibrateOdomSent[currPacketId*4+0]++;
+	calibrateOdomSent[currPacketId*4+1]++;
+	calibrateOdomSent[currPacketId*4+2]++;
+	calibrateOdomSent[currPacketId*4+3]++;
+
+	if(calibrationSent[currPacketId*4+0] > 2) {
+	    CALIBRATION_OFF(flagsTX[currPacketId*4+0][0]);
+	}
+	if(calibrationSent[currPacketId*4+1] > 2) {
+	    CALIBRATION_OFF(flagsTX[currPacketId*4+1][0]);
+	}
+	if(calibrationSent[currPacketId*4+2] > 2) {
+    	CALIBRATION_OFF(flagsTX[currPacketId*4+2][0]);
+	}
+	if(calibrationSent[currPacketId*4+3] > 2) {
+    	CALIBRATION_OFF(flagsTX[currPacketId*4+3][0]);
+	}
+
+	if(calibrateOdomSent[currPacketId*4+0] > 2) {
+	    flagsTX[currPacketId*4+0][1] &= ~(1<<0);
+	}
+	if(calibrateOdomSent[currPacketId*4+1] > 2) {
+    	flagsTX[currPacketId*4+1][1] &= ~(1<<0);
+	}
+	if(calibrateOdomSent[currPacketId*4+2] > 2) {
+	    flagsTX[currPacketId*4+2][1] &= ~(1<<0);
+	}
+	if(calibrateOdomSent[currPacketId*4+3] > 2) {
+	    flagsTX[currPacketId*4+3][1] &= ~(1<<0);
+	}
+
+#ifdef _WIN32
+    ReleaseMutex(mutexTx);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_unlock(&mutexTx);
+#endif
+
+
+    RX_buffer[0] = 0;
+    RX_buffer[16] = 0;
+    RX_buffer[32] = 0;
+    RX_buffer[48] = 0;
+    err = usb_receive(RX_buffer, 64);     // receive the ack payload for 4 robots at a time (16 bytes for each one)
+    if(err < 0) {
+        printf("receive error!\n");
+    }
+
+#ifdef _WIN32
+    WaitForSingleObject(mutexRx, INFINITE);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_lock(&mutexRx);
+#endif
 
     // when the flag "lastMessageSentFlag" is reset we aren't sure the current message is really sent to the radio module
     // for next transmission to the robots so we wait the message is sent twice
@@ -989,25 +1608,6 @@ void transferData() {
         lastMessageSentFlag[currPacketId*4+3]=1;
     } else if(lastMessageSentFlag[currPacketId*4+3]==1) {
         lastMessageSentFlag[currPacketId*4+3]=2;
-    }
-
-	calibrationSent[currPacketId*4+0]++;
-	calibrationSent[currPacketId*4+1]++;
-	calibrationSent[currPacketId*4+2]++;
-	calibrationSent[currPacketId*4+3]++;
-
-	calibrateOdomSent[currPacketId*4+0]++;
-	calibrateOdomSent[currPacketId*4+1]++;
-	calibrateOdomSent[currPacketId*4+2]++;
-	calibrateOdomSent[currPacketId*4+3]++;
-
-    RX_buffer[0] = 0;
-    RX_buffer[16] = 0;
-    RX_buffer[32] = 0;
-    RX_buffer[48] = 0;
-    err = usb_receive(RX_buffer, 64);     // receive the ack payload for 4 robots at a time (16 bytes for each one)
-    if(err < 0) {
-        printf("receive error!\n");
     }
 
     // the base-station returns this "error" codes:
@@ -1267,31 +1867,12 @@ void transferData() {
         }
     }
 
-	if(calibrationSent[currPacketId*4+0] > 2) {
-	    CALIBRATION_OFF(flagsTX[currPacketId*4+0][0]);
-	}
-	if(calibrationSent[currPacketId*4+1] > 2) {
-	    CALIBRATION_OFF(flagsTX[currPacketId*4+1][0]);
-	}
-	if(calibrationSent[currPacketId*4+2] > 2) {
-    	CALIBRATION_OFF(flagsTX[currPacketId*4+2][0]);
-	}
-	if(calibrationSent[currPacketId*4+3] > 2) {
-    	CALIBRATION_OFF(flagsTX[currPacketId*4+3][0]);
-	}
-
-	if(calibrateOdomSent[currPacketId*4+0] > 2) {
-	    flagsTX[currPacketId*4+0][1] &= ~(1<<0);
-	}
-	if(calibrateOdomSent[currPacketId*4+1] > 2) {
-    	flagsTX[currPacketId*4+1][1] &= ~(1<<0);
-	}
-	if(calibrateOdomSent[currPacketId*4+2] > 2) {
-	    flagsTX[currPacketId*4+2][1] &= ~(1<<0);
-	}
-	if(calibrateOdomSent[currPacketId*4+3] > 2) {
-	    flagsTX[currPacketId*4+3][1] &= ~(1<<0);
-	}
+#ifdef _WIN32
+    ReleaseMutex(mutexRx);
+#endif
+#if defined(__linux__) || defined(__APPLE__)
+    pthread_mutex_unlock(&mutexRx);
+#endif
 
 }
 
@@ -1351,10 +1932,13 @@ DWORD WINAPI CommThread( LPVOID lpParameter) {
             GetSystemTime(&exitTime);
             SystemTimeToFileTime(&exitTime, &exitTimeF);
             exitTime64 = (((ULONGLONG) exitTimeF.dwHighDateTime) << 32) + exitTimeF.dwLowDateTime;
+            setMutexThread();
             for(i=0; i<currNumRobots; i++) {
                 errorPercentage[i] = numOfErrors[i]/numOfPackets*100.0;
+                //printf("errorPercentage[%d] = %f\r\n", i, errorPercentage[i]);
                 numOfErrors[i] = 0;
             }
+            freeMutexThread();
             numOfPackets = 0;
         }
     }
@@ -1367,7 +1951,7 @@ DWORD WINAPI CommThread( LPVOID lpParameter) {
 void *CommThread(void *arg) {
 	int i = 0;
 	struct timeval currTimeRF, txTimeRF, exitTime;
-	
+
     gettimeofday(&currTimeRF, NULL);
 	gettimeofday(&txTimeRF, NULL);
 	gettimeofday(&exitTime, NULL);
@@ -1398,10 +1982,13 @@ void *CommThread(void *arg) {
 
         if(((currTimeRF.tv_sec * 1000000 + currTimeRF.tv_usec)-(exitTime.tv_sec * 1000000 + exitTime.tv_usec) > 5000000)) { // 5 seconds
             gettimeofday(&exitTime, NULL);
+            setMutexThread();
             for(i=0; i<currNumRobots; i++) {
                 errorPercentage[i] = numOfErrors[i]/numOfPackets*100.0;
+                //printf("errorPercentage[%d] = %f\r\n", i, errorPercentage[i]);
                 numOfErrors[i] = 0;
             }
+            freeMutexThread();
             numOfPackets = 0;
         }
     }

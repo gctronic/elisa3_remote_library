@@ -119,6 +119,13 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">To be called once at the beginning, it init the USB communication with the RF module that is responsible to send data to the robots and initialize the list of robots to be controlled; max number of simultaneous robots is 100.  <a href="#a923cae3a0bd68f227053a652d7e8f80d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a7de25a200d3cf1f2aec2859bfb12fddf">stopCommunication</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">To be called once at the end, it closes the USB communication.  <a href="#a7de25a200d3cf1f2aec2859bfb12fddf"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#aa4f8298f5e9ba765c10e9b088d93f1c2">setMutexTx</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a53c8f28bb1390e07ccfb66a485efced4">freeMutexTx</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#aaef6b23d858eca49c605bd696ac72573">setMutexRx</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a6405add6e3ecc2e68840192f2e734259">freeMutexRx</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a7a7e45e3546509c48d57cdd8cb60d7d4">setMutexThread</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a58621b2c8128b29bc6b033ba9acb9adb">freeMutexThread</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a1ebb5c52ab16d1bde711cbcee07bb764">checkConcurrency</a> (int id)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#ab569b5f12f3285df46cc690c14d69a77">setLeftSpeed</a> (int robotAddr, char value)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the left speed of the robot.  <a href="#ab569b5f12f3285df46cc690c14d69a77"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a6afa502c04e69628eab2b53c7bc6a392">setRightSpeed</a> (int robotAddr, char value)</td></tr>
@@ -167,6 +174,7 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the onboard cliff avoidance.  <a href="#ad1ea7f8ca9c13236329d56c96311ad5d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#abfcd5b8cb8d71a8928f83ee29c605c66">disableCliffAvoidance</a> (int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the onboard cliff avoidance.  <a href="#abfcd5b8cb8d71a8928f83ee29c605c66"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a54c3c7a0345a7b0a28f8cc5a0a3abbff">resetRobotData</a> (int robotIndex)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#af63b6c6a4027f9a9f900180361996e0b">setRobotAddress</a> (int robotIndex, int robotAddr)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the address of a robot related to a particular index, the index must be in the range of the robot list size.  <a href="#af63b6c6a4027f9a9f900180361996e0b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a05dc3782ef2542daa2743ebd3f241a7d">setRobotAddresses</a> (int *robotAddr, int numRobots)</td></tr>
@@ -304,6 +312,7 @@ Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a84bce4fc31941251b12d85e504303a01">stopTransmissionFlag</a> = 0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#a1ebeee47cb5c6f52ba85f9357a9ba89e">currNumRobots</a> = 0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#aacb56f57f16a36e633640a807e5429fd">currPacketId</a> = 0</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="elisa3-lib_8c.html#af2c33723461f5269bd55f0b6b7789881">usbCommOpenedFlag</a> = 0</td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="acfe2aa658c61f71e0a185bcff3008a00"></a><!-- doxytag: member="elisa3&#45;lib.c::ADDR_SIZE" ref="acfe2aa658c61f71e0a185bcff3008a00" args="" -->
@@ -754,6 +763,23 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1ebb5c52ab16d1bde711cbcee07bb764"></a><!-- doxytag: member="elisa3&#45;lib.c::checkConcurrency" ref="a1ebb5c52ab16d1bde711cbcee07bb764" args="(int id)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="elisa3-lib_8c.html#a1ebb5c52ab16d1bde711cbcee07bb764">checkConcurrency</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ab027d820a58cc8a741ae8c95a6c6afaa"></a><!-- doxytag: member="elisa3&#45;lib.c::computeVerticalAngle" ref="ab027d820a58cc8a741ae8c95a6c6afaa" args="(signed int x, signed int y)" -->
 <div class="memitem">
 <div class="memproto">
@@ -986,6 +1012,54 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6405add6e3ecc2e68840192f2e734259"></a><!-- doxytag: member="elisa3&#45;lib.c::freeMutexRx" ref="a6405add6e3ecc2e68840192f2e734259" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#a6405add6e3ecc2e68840192f2e734259">freeMutexRx</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a58621b2c8128b29bc6b033ba9acb9adb"></a><!-- doxytag: member="elisa3&#45;lib.c::freeMutexThread" ref="a58621b2c8128b29bc6b033ba9acb9adb" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#a58621b2c8128b29bc6b033ba9acb9adb">freeMutexThread</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a53c8f28bb1390e07ccfb66a485efced4"></a><!-- doxytag: member="elisa3&#45;lib.c::freeMutexTx" ref="a53c8f28bb1390e07ccfb66a485efced4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#a53c8f28bb1390e07ccfb66a485efced4">freeMutexTx</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
 
 </div>
 </div>
@@ -1911,6 +1985,23 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a54c3c7a0345a7b0a28f8cc5a0a3abbff"></a><!-- doxytag: member="elisa3&#45;lib.c::resetRobotData" ref="a54c3c7a0345a7b0a28f8cc5a0a3abbff" args="(int robotIndex)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#a54c3c7a0345a7b0a28f8cc5a0a3abbff">resetRobotData</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>robotIndex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a3ebd8b9081d003e0ef2c072243b79ab4"></a><!-- doxytag: member="elisa3&#45;lib.c::resumeTransferData" ref="a3ebd8b9081d003e0ef2c072243b79ab4" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -2433,6 +2524,54 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>none </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aaef6b23d858eca49c605bd696ac72573"></a><!-- doxytag: member="elisa3&#45;lib.c::setMutexRx" ref="aaef6b23d858eca49c605bd696ac72573" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#aaef6b23d858eca49c605bd696ac72573">setMutexRx</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7a7e45e3546509c48d57cdd8cb60d7d4"></a><!-- doxytag: member="elisa3&#45;lib.c::setMutexThread" ref="a7a7e45e3546509c48d57cdd8cb60d7d4" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#a7a7e45e3546509c48d57cdd8cb60d7d4">setMutexThread</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aa4f8298f5e9ba765c10e9b088d93f1c2"></a><!-- doxytag: member="elisa3&#45;lib.c::setMutexTx" ref="aa4f8298f5e9ba765c10e9b088d93f1c2" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="elisa3-lib_8c.html#aa4f8298f5e9ba765c10e9b088d93f1c2">setMutexTx</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
 
 </div>
 </div>
@@ -3544,6 +3683,19 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af2c33723461f5269bd55f0b6b7789881"></a><!-- doxytag: member="elisa3&#45;lib.c::usbCommOpenedFlag" ref="af2c33723461f5269bd55f0b6b7789881" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned char <a class="el" href="elisa3-lib_8c.html#af2c33723461f5269bd55f0b6b7789881">usbCommOpenedFlag</a> = 0</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -3562,7 +3714,7 @@ Variables</h2></td></tr>
 
 
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 18 2014 14:05:14 for PC side Elisa-3 library by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jun 23 2014 15:09:32 for PC side Elisa-3 library by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.7.6.1
 </small></address>

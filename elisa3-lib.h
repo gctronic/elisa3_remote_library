@@ -4,6 +4,13 @@
 #include <unistd.h>
 #include "usb-comm.h"
 
+#ifndef ELISA3_LIB_H_
+#define ELISA3_LIB_H_
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * \brief To be called once at the beginning, it init the USB communication with the RF module that is responsible to send data to the robots and initialize the list of robots to be controlled; max number of simultaneous robots is 100.
  * \param robotAddr array list of robot addresses to be handled.
@@ -606,5 +613,12 @@ unsigned char waitForUpdate(int robotAddr, unsigned long us);
  * \return 0 if message sent succesfully, 1 otherwise.
  */
 unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds, unsigned long us);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif // ELISA3_LIB_H_
+
 
 

@@ -860,13 +860,6 @@ unsigned int getBatteryAdc(int robotAddr) {
         if(enableMut) {
             setMutexRx();
         }
-        if(batteryAdc[id] >= 934) {           // 934 is the measured adc value when the battery is charged
-            batteryPercent[id] = 100;
-        } else if(batteryAdc[id] <= 780) {    // 780 is the measrued adc value when the battery is discharged
-            batteryPercent[id] = 0;
-        } else {
-            batteryPercent[id] = (unsigned int)((float)((batteryAdc[id]-780.0)/(934.0-780.0))*100.0);
-        }
         tempVal = batteryAdc[id];
         if(enableMut) {
             freeMutexRx();
@@ -878,8 +871,24 @@ unsigned int getBatteryAdc(int robotAddr) {
 
 unsigned int getBatteryPercent(int robotAddr) {
     int id = getIdFromAddress(robotAddr);
+    unsigned int tempVal=0;
+    unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
-        return batteryPercent[id];
+        if(enableMut) {
+            setMutexRx();
+        }
+        if(batteryAdc[id] >= 934) {           // 934 is the measured adc value when the battery is charged
+            batteryPercent[id] = 100;
+        } else if(batteryAdc[id] <= 780) {    // 780 is the measrued adc value when the battery is discharged
+            batteryPercent[id] = 0;
+        } else {
+            batteryPercent[id] = (unsigned int)((float)(((float)batteryAdc[id]-780.0)/(934.0-780.0))*100.0);
+        }
+        tempVal = batteryPercent[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
     }
     return -1;
 }

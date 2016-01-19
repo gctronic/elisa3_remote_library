@@ -1,5 +1,5 @@
 #include "usb-comm.h"
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     #include "libusb.h"
 #endif
 #ifdef __APPLE__

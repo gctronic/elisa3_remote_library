@@ -23,11 +23,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="C:\libraries\libusb_2011.07.06\include\libusb-1.0" />
+			<Add directory="C:\libraries\libusb-1.0.20\include\libusb-1.0" />
 		</Compiler>
 		<Linker>
 			<Add library="libusb-1.0" />
-			<Add directory="C:\libraries\libusb_2011.07.06\MinGW32\static" />
+			<Add directory="C:\libraries\libusb-1.0.20\MinGW64\static" />
 		</Linker>
 		<Unit filename="elisa3-lib.c">
 			<Option compilerVar="CC" />

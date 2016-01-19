@@ -1,6 +1,6 @@
 
 #include "elisa3-lib.h"
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     #include "windows.h"
 #endif
 
@@ -99,7 +99,7 @@ unsigned char sleepEnabledFlag[100];
 // Communication
 char RX_buffer[64]={0};         // Last packet received from base station
 char TX_buffer[64]={0};         // Next packet to send to base station
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
 DWORD commThreadId;
 HANDLE commThread;
 HANDLE mutexTx;
@@ -122,7 +122,7 @@ unsigned int currPacketId = 0;
 unsigned char usbCommOpenedFlag = 0;
 
 // functions declaration
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
 DWORD WINAPI CommThread( LPVOID lpParameter);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -168,7 +168,7 @@ void startCommunication(int *robotAddr, int numRobots) {
     openCommunication();
     TX_buffer[0]=0x27;
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     commThread = CreateThread(NULL, 0, CommThread, NULL, 0, &commThreadId);
     mutexTx = CreateMutex(NULL, FALSE, NULL);
     mutexRx = CreateMutex(NULL, FALSE, NULL);
@@ -199,7 +199,7 @@ void startCommunication(int *robotAddr, int numRobots) {
 void stopCommunication() {
     closeCommunication();
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     TerminateThread(commThread, 0);
     CloseHandle(commThread);
     CloseHandle(mutexTx);
@@ -219,7 +219,7 @@ void stopCommunication() {
 }
 
 void setMutexTx() {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     WaitForSingleObject(mutexTx, INFINITE);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -228,7 +228,7 @@ void setMutexTx() {
 }
 
 void freeMutexTx() {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     ReleaseMutex(mutexTx);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -237,7 +237,7 @@ void freeMutexTx() {
 }
 
 void setMutexRx() {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     WaitForSingleObject(mutexRx, INFINITE);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -246,7 +246,7 @@ void setMutexRx() {
 }
 
 void freeMutexRx() {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     ReleaseMutex(mutexRx);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -255,7 +255,7 @@ void freeMutexRx() {
 }
 
 void setMutexThread() {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     WaitForSingleObject(mutexThread, INFINITE);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -264,7 +264,7 @@ void setMutexThread() {
 }
 
 void freeMutexThread() {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     ReleaseMutex(mutexThread);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1365,7 +1365,7 @@ unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue,
 }
 
 unsigned char waitForUpdate(int robotAddr, unsigned long us) {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     SYSTEMTIME startTime;
     FILETIME startTimeF;
     ULONGLONG startTime64;
@@ -1386,7 +1386,7 @@ unsigned char waitForUpdate(int robotAddr, unsigned long us) {
     resetMessageIsSentFlag(robotAddr);
 
     while(messageIsSent(robotAddr)==0) {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
         GetSystemTime(&exitTime);
         SystemTimeToFileTime(&exitTime, &exitTimeF);
         exitTime64 = (((ULONGLONG) exitTimeF.dwHighDateTime) << 32) + exitTimeF.dwLowDateTime;
@@ -1410,7 +1410,7 @@ void transferData() {
 
     int err=0;
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     WaitForSingleObject(mutexTx, INFINITE);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1517,7 +1517,7 @@ void transferData() {
         TX_buffer[(3*ROBOT_PACKET_SIZE)+15] = robotAddress[currPacketId*4+3]&0xFF;
     }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     ReleaseMutex(mutexTx);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1530,7 +1530,7 @@ void transferData() {
         printf("send error!\n");
     }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     WaitForSingleObject(mutexTx, INFINITE);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1572,7 +1572,7 @@ void transferData() {
 	    flagsTX[currPacketId*4+3][1] &= ~(1<<0);
 	}
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     ReleaseMutex(mutexTx);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1589,7 +1589,7 @@ void transferData() {
         printf("receive error!\n");
     }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     WaitForSingleObject(mutexRx, INFINITE);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1876,7 +1876,7 @@ void transferData() {
         }
     }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
     ReleaseMutex(mutexRx);
 #endif
 #if defined(__linux__) || defined(__APPLE__)
@@ -1885,7 +1885,7 @@ void transferData() {
 
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(_WIN64)
 DWORD WINAPI CommThread( LPVOID lpParameter) {
     int i = 0;
 

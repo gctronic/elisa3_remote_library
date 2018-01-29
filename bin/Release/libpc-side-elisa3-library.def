@@ -1,299 +1,135 @@
 EXPORTS
-    CommThread @1
-    GUID_DEVINTERFACE_LIBUSB0_FILTER @2 DATA
-    GUID_DEVINTERFACE_USB_DEVICE @3 DATA
-    GUID_DEVINTERFACE_USB_HOST_CONTROLLER @4 DATA
-    GUID_DEVINTERFACE_USB_HUB @5 DATA
-    INVALID_WINFD @6 DATA
-    RX_buffer @7 DATA
-    TX_buffer @8 DATA
-    _poll_fd @9 DATA
-    accX @10 DATA
-    accY @11 DATA
-    accZ @12 DATA
-    active_contexts_list @13 DATA
-    active_contexts_lock @14 DATA
-    api_hid_available @15 DATA
-    autoclaim_lock @16 DATA
-    batteryAdc @17 DATA
-    batteryPercent @18 DATA
-    blueLed @19 DATA
-    buttonIsPressed @20
-    calibrateOdomSent @21 DATA
-    calibrateSensors @22
-    calibrateSensorsForAll @23
-    calibrationSent @24 DATA
-    checkConcurrency @25
-    closeCommunication @26
-    commThread @27 DATA
-    commThreadId @28 DATA
-    composite_driver_names @29 DATA
-    computeVerticalAngle @30
-    currNumRobots @31 DATA
-    currPacketId @32 DATA
-    disableCliffAvoidance @33
-    disableObstacleAvoidance @34
-    disableSleep @35
-    disableTVRemote @36
-    discovered_devs_append @37
-    enableCliffAvoidance @38
-    enableObstacleAvoidance @39
-    enableSleep @40
-    enableTVRemote @41
-    epoch_time @42 DATA
-    errorPercentage @43 DATA
-    exit_polling @44
-    fd_to_winfd @45
-    flagsRX @46 DATA
-    flagsTX @47 DATA
-    freeMutexRx @48
-    freeMutexThread @49
-    freeMutexTx @50
-    getAccX @51
-    getAccY @52
-    getAccZ @53
-    getAllGround @54
-    getAllGroundAmbient @55
-    getAllGroundAmbientFromAll @56
-    getAllGroundFromAll @57
-    getAllProximity @58
-    getAllProximityAmbient @59
-    getAllProximityAmbientFromAll @60
-    getAllProximityFromAll @61
-    getBatteryAdc @62
-    getBatteryPercent @63
-    getFlagRX @64
-    getFlagTX @65
-    getGround @66
-    getGroundAmbient @67
-    getIdFromAddress @68
-    getLeftMotSteps @69
-    getOdomTheta @70
-    getOdomXpos @71
-    getOdomYpos @72
-    getProximity @73
-    getProximityAmbient @74
-    getRFQuality @75
-    getRightMotSteps @76
-    getSelector @77
-    getTVRemoteCommand @78
-    getVerticalAngle @79
-    greenLed @80 DATA
-    groundAmbientValue @81 DATA
-    groundValue @82 DATA
-    handle_to_winfd @83
-    hid_driver_names @84 DATA
-    hires_frequency @85 DATA
-    hires_ticks_to_ps @86 DATA
-    htab_filled @87 DATA
-    htab_size @88 DATA
-    htab_table @89 DATA
-    htab_write_mutex @90 DATA
-    hub_driver_names @91 DATA
-    init_polling @92
-    is_polling_set @93 DATA
-    lastMessageSentFlag @94 DATA
-    leftMotSteps @95 DATA
-    leftSpeed @96 DATA
-    libusb_alloc_streams @97
-    libusb_alloc_transfer @98
-    libusb_attach_kernel_driver @99
-    libusb_bulk_transfer @100
-    libusb_cancel_transfer @101
-    libusb_claim_interface @102
-    libusb_clear_halt @103
-    libusb_close @104
-    libusb_control_transfer @105
-    libusb_detach_kernel_driver @106
-    libusb_error_name @107
-    libusb_event_handler_active @108
-    libusb_event_handling_ok @109
-    libusb_exit @110
-    libusb_free_bos_descriptor @111
-    libusb_free_config_descriptor @112
-    libusb_free_container_id_descriptor @113
-    libusb_free_device_list @114
-    libusb_free_pollfds @115
-    libusb_free_ss_endpoint_companion_descriptor @116
-    libusb_free_ss_usb_device_capability_descriptor @117
-    libusb_free_streams @118
-    libusb_free_transfer @119
-    libusb_free_usb_2_0_extension_descriptor @120
-    libusb_get_active_config_descriptor @121
-    libusb_get_bos_descriptor @122
-    libusb_get_bus_number @123
-    libusb_get_config_descriptor @124
-    libusb_get_config_descriptor_by_value @125
-    libusb_get_configuration @126
-    libusb_get_container_id_descriptor @127
-    libusb_get_device @128
-    libusb_get_device_address @129
-    libusb_get_device_descriptor @130
-    libusb_get_device_list @131
-    libusb_get_device_speed @132
-    libusb_get_max_iso_packet_size @133
-    libusb_get_max_packet_size @134
-    libusb_get_next_timeout @135
-    libusb_get_parent @136
-    libusb_get_pollfds @137
-    libusb_get_port_number @138
-    libusb_get_port_numbers @139
-    libusb_get_port_path @140
-    libusb_get_ss_endpoint_companion_descriptor @141
-    libusb_get_ss_usb_device_capability_descriptor @142
-    libusb_get_string_descriptor_ascii @143
-    libusb_get_usb_2_0_extension_descriptor @144
-    libusb_get_version @145
-    libusb_handle_events @146
-    libusb_handle_events_completed @147
-    libusb_handle_events_locked @148
-    libusb_handle_events_timeout @149
-    libusb_handle_events_timeout_completed @150
-    libusb_has_capability @151
-    libusb_hotplug_deregister_callback @152
-    libusb_hotplug_register_callback @153
-    libusb_init @154
-    libusb_interrupt_transfer @155
-    libusb_kernel_driver_active @156
-    libusb_lock_event_waiters @157
-    libusb_lock_events @158
-    libusb_open @159
-    libusb_open_device_with_vid_pid @160
-    libusb_pollfds_handle_timeouts @161
-    libusb_ref_device @162
-    libusb_release_interface @163
-    libusb_reset_device @164
-    libusb_set_auto_detach_kernel_driver @165
-    libusb_set_configuration @166
-    libusb_set_debug @167
-    libusb_set_interface_alt_setting @168
-    libusb_set_pollfd_notifiers @169
-    libusb_submit_transfer @170
-    libusb_transfer_get_stream_id @171
-    libusb_transfer_set_stream_id @172
-    libusb_try_lock_events @173
-    libusb_unlock_event_waiters @174
-    libusb_unlock_events @175
-    libusb_unref_device @176
-    libusb_wait_for_event @177
-    messageIsSent @178
-    mutexRx @179 DATA
-    mutexThread @180 DATA
-    mutexTx @181 DATA
-    numOfErrors @182 DATA
-    numOfPackets @183 DATA
-    openCommunication @184
-    overlapped_to_winfd @185
-    pipe_number @186 DATA
-    poll_fd @187 DATA
-    proxAmbientValue @188 DATA
-    proxValue @189 DATA
-    redLed @190 DATA
-    resetFlagTX @191
-    resetMessageIsSentFlag @192
-    resetRobotData @193
-    resumeTransferData @194
-    rightMotSteps @195 DATA
-    rightSpeed @196 DATA
-    robTheta @197 DATA
-    robXPos @198 DATA
-    robYPos @199 DATA
-    robotAddress @200 DATA
-    robotIsCharged @201
-    robotIsCharging @202
-    selector @203 DATA
-    sendMessageToRobot @204
-    setBlue @205
-    setBlueForAll @206
-    setCompletePacket @207
-    setCompletePacketForAll @208
-    setGreen @209
-    setGreenForAll @210
-    setLeftSpeed @211
-    setLeftSpeedForAll @212
-    setMutexRx @213
-    setMutexThread @214
-    setMutexTx @215
-    setRed @216
-    setRedForAll @217
-    setRightSpeed @218
-    setRightSpeedForAll @219
-    setRobotAddress @220
-    setRobotAddresses @221
-    setSmallLed @222
-    sleepEnabledFlag @223 DATA
-    smallLeds @224 DATA
-    speed @225
-    startCommunication @226
-    startOdometryCalibration @227
-    stopCommunication @228
-    stopTransferData @229
-    stopTransmissionFlag @230 DATA
-    sub_api_name @231 DATA
-    timer_thread @232 DATA
-    timer_thread_id @233 DATA
-    transferData @234
-    turnOffAllIRs @235
-    turnOffBackIR @236
-    turnOffFrontIRs @237
-    turnOffSmallLeds @238
-    turnOnAllIRs @239
-    turnOnBackIR @240
-    turnOnFrontIRs @241
-    turnOnSmallLeds @242
-    tvRemote @243 DATA
-    usbCommOpenedFlag @244 DATA
-    usb_api_backend @245 DATA
-    usb_receive @246
-    usb_send @247
-    usbi_add_pollfd @248
-    usbi_alloc_device @249
-    usbi_backend @250 DATA
-    usbi_clear_event @251
-    usbi_close @252
-    usbi_cond_broadcast @253
-    usbi_cond_destroy @254
-    usbi_cond_init @255
-    usbi_cond_signal @256
-    usbi_cond_timedwait @257
-    usbi_cond_wait @258
-    usbi_connect_device @259
-    usbi_create_fd @260
-    usbi_default_context @261 DATA
-    usbi_device_cache_descriptor @262
-    usbi_disconnect_device @263
-    usbi_free_fd @264
-    usbi_get_config_index_by_value @265
-    usbi_get_device_by_session_id @266
-    usbi_get_tid @267
-    usbi_handle_disconnect @268
-    usbi_handle_transfer_cancellation @269
-    usbi_handle_transfer_completion @270
-    usbi_hotplug_deregister_all @271
-    usbi_hotplug_match @272
-    usbi_hotplug_notification @273
-    usbi_io_exit @274
-    usbi_io_init @275
-    usbi_log @276
-    usbi_log_v @277
-    usbi_mutex_destroy @278
-    usbi_mutex_init @279
-    usbi_mutex_lock @280
-    usbi_mutex_static_lock @281
-    usbi_mutex_static_unlock @282
-    usbi_mutex_trylock @283
-    usbi_mutex_unlock @284
-    usbi_parse_descriptor @285
-    usbi_pipe @286
-    usbi_poll @287
-    usbi_read @288
-    usbi_remove_pollfd @289
-    usbi_sanitize_device @290
-    usbi_signal_event @291
-    usbi_signal_transfer_completion @292
-    usbi_write @293
-    waitForUpdate @294
-    windows_backend @295 DATA
-    windows_clock_gettime_threaded @296
-    windows_version @297 DATA
-    winusbx_driver_names @298 DATA
+    CommThread@4 @1
+    RX_buffer @2 DATA
+    TX_buffer @3 DATA
+    accX @4 DATA
+    accY @5 DATA
+    accZ @6 DATA
+    batteryAdc @7 DATA
+    batteryPercent @8 DATA
+    blueLed @9 DATA
+    buttonIsPressed @10
+    calibrateOdomSent @11 DATA
+    calibrateSensors @12
+    calibrateSensorsForAll @13
+    calibrationSent @14 DATA
+    checkConcurrency @15
+    closeCommunication @16
+    commThread @17 DATA
+    commThreadId @18 DATA
+    computeVerticalAngle @19
+    currNumRobots @20 DATA
+    currPacketId @21 DATA
+    disableCliffAvoidance @22
+    disableObstacleAvoidance @23
+    disableSleep @24
+    disableTVRemote @25
+    enableCliffAvoidance @26
+    enableObstacleAvoidance @27
+    enableSleep @28
+    enableTVRemote @29
+    errorPercentage @30 DATA
+    flagsRX @31 DATA
+    flagsTX @32 DATA
+    freeMutexRx @33
+    freeMutexThread @34
+    freeMutexTx @35
+    getAccX @36
+    getAccY @37
+    getAccZ @38
+    getAllGround @39
+    getAllGroundAmbient @40
+    getAllGroundAmbientFromAll @41
+    getAllGroundFromAll @42
+    getAllProximity @43
+    getAllProximityAmbient @44
+    getAllProximityAmbientFromAll @45
+    getAllProximityFromAll @46
+    getBatteryAdc @47
+    getBatteryPercent @48
+    getFlagRX @49
+    getFlagTX @50
+    getGround @51
+    getGroundAmbient @52
+    getIdFromAddress @53
+    getLeftMotSteps @54
+    getOdomTheta @55
+    getOdomXpos @56
+    getOdomYpos @57
+    getProximity @58
+    getProximityAmbient @59
+    getRFQuality @60
+    getRightMotSteps @61
+    getSelector @62
+    getTVRemoteCommand @63
+    getVerticalAngle @64
+    greenLed @65 DATA
+    groundAmbientValue @66 DATA
+    groundValue @67 DATA
+    lastMessageSentFlag @68 DATA
+    leftMotSteps @69 DATA
+    leftSpeed @70 DATA
+    messageIsSent @71
+    mutexRx @72 DATA
+    mutexThread @73 DATA
+    mutexTx @74 DATA
+    numOfErrors @75 DATA
+    numOfPackets @76 DATA
+    openCommunication @77
+    proxAmbientValue @78 DATA
+    proxValue @79 DATA
+    redLed @80 DATA
+    resetFlagTX @81
+    resetMessageIsSentFlag @82
+    resetRobotData @83
+    resumeTransferData @84
+    rightMotSteps @85 DATA
+    rightSpeed @86 DATA
+    robTheta @87 DATA
+    robXPos @88 DATA
+    robYPos @89 DATA
+    robotAddress @90 DATA
+    robotIsCharged @91
+    robotIsCharging @92
+    selector @93 DATA
+    sendMessageToRobot @94
+    setBlue @95
+    setBlueForAll @96
+    setCompletePacket @97
+    setCompletePacketForAll @98
+    setGreen @99
+    setGreenForAll @100
+    setLeftSpeed @101
+    setLeftSpeedForAll @102
+    setMutexRx @103
+    setMutexThread @104
+    setMutexTx @105
+    setRed @106
+    setRedForAll @107
+    setRightSpeed @108
+    setRightSpeedForAll @109
+    setRobotAddress @110
+    setRobotAddresses @111
+    setSmallLed @112
+    sleepEnabledFlag @113 DATA
+    smallLeds @114 DATA
+    speed @115
+    startCommunication @116
+    startOdometryCalibration @117
+    stopCommunication @118
+    stopTransferData @119
+    stopTransmissionFlag @120 DATA
+    transferData @121
+    turnOffAllIRs @122
+    turnOffBackIR @123
+    turnOffFrontIRs @124
+    turnOffSmallLeds @125
+    turnOnAllIRs @126
+    turnOnBackIR @127
+    turnOnFrontIRs @128
+    turnOnSmallLeds @129
+    tvRemote @130 DATA
+    usbCommOpenedFlag @131 DATA
+    usb_receive @132
+    usb_send @133
+    waitForUpdate @134

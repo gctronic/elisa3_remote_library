@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="pc-side-elisa3-library" />
+		<Option title="elisa3_remote_library" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Release">
-				<Option output="bin/Release/libpc-side-elisa3-library" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/libelisa3_remote_library" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="3" />
 				<Option compiler="gcc" />

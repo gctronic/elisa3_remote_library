@@ -1,0 +1,136 @@
+EXPORTS
+    CommThread@4 @1
+    RX_buffer @2 DATA
+    TX_buffer @3 DATA
+    accX @4 DATA
+    accY @5 DATA
+    accZ @6 DATA
+    batteryAdc @7 DATA
+    batteryPercent @8 DATA
+    blueLed @9 DATA
+    buttonIsPressed @10
+    calibrateOdomSent @11 DATA
+    calibrateSensors @12
+    calibrateSensorsForAll @13
+    calibrationSent @14 DATA
+    checkConcurrency @15
+    closeCommunication @16
+    commThread @17 DATA
+    commThreadId @18 DATA
+    computeVerticalAngle @19
+    currNumRobots @20 DATA
+    currPacketId @21 DATA
+    disableCliffAvoidance @22
+    disableObstacleAvoidance @23
+    disableSleep @24
+    disableTVRemote @25
+    enableCliffAvoidance @26
+    enableObstacleAvoidance @27
+    enableSleep @28
+    enableTVRemote @29
+    errorPercentage @30 DATA
+    flagsRX @31 DATA
+    flagsTX @32 DATA
+    freeMutexRx @33
+    freeMutexThread @34
+    freeMutexTx @35
+    getAccX @36
+    getAccY @37
+    getAccZ @38
+    getAllGround @39
+    getAllGroundAmbient @40
+    getAllGroundAmbientFromAll @41
+    getAllGroundFromAll @42
+    getAllProximity @43
+    getAllProximityAmbient @44
+    getAllProximityAmbientFromAll @45
+    getAllProximityFromAll @46
+    getBatteryAdc @47
+    getBatteryPercent @48
+    getFlagRX @49
+    getFlagTX @50
+    getGround @51
+    getGroundAmbient @52
+    getIdFromAddress @53
+    getLeftMotSteps @54
+    getOdomTheta @55
+    getOdomXpos @56
+    getOdomYpos @57
+    getProximity @58
+    getProximityAmbient @59
+    getRFQuality @60
+    getRightMotSteps @61
+    getSelector @62
+    getTVRemoteCommand @63
+    getVerticalAngle @64
+    get_device_list @65
+    greenLed @66 DATA
+    groundAmbientValue @67 DATA
+    groundValue @68 DATA
+    lastMessageSentFlag @69 DATA
+    leftMotSteps @70 DATA
+    leftSpeed @71 DATA
+    messageIsSent @72
+    mutexRx @73 DATA
+    mutexThread @74 DATA
+    mutexTx @75 DATA
+    numOfErrors @76 DATA
+    numOfPackets @77 DATA
+    openCommunication @78
+    proxAmbientValue @79 DATA
+    proxValue @80 DATA
+    redLed @81 DATA
+    resetFlagTX @82
+    resetMessageIsSentFlag @83
+    resetRobotData @84
+    resumeTransferData @85
+    rightMotSteps @86 DATA
+    rightSpeed @87 DATA
+    robTheta @88 DATA
+    robXPos @89 DATA
+    robYPos @90 DATA
+    robotAddress @91 DATA
+    robotIsCharged @92
+    robotIsCharging @93
+    selector @94 DATA
+    sendMessageToRobot @95
+    setBlue @96
+    setBlueForAll @97
+    setCompletePacket @98
+    setCompletePacketForAll @99
+    setGreen @100
+    setGreenForAll @101
+    setLeftSpeed @102
+    setLeftSpeedForAll @103
+    setMutexRx @104
+    setMutexThread @105
+    setMutexTx @106
+    setRed @107
+    setRedForAll @108
+    setRightSpeed @109
+    setRightSpeedForAll @110
+    setRobotAddress @111
+    setRobotAddresses @112
+    setSmallLed @113
+    sleepEnabledFlag @114 DATA
+    smallLeds @115 DATA
+    speed @116
+    startCommunication @117
+    startOdometryCalibration @118
+    stopCommunication @119
+    stopTransferData @120
+    stopTransmissionFlag @121 DATA
+    transferData @122
+    turnOffAllIRs @123
+    turnOffBackIR @124
+    turnOffFrontIRs @125
+    turnOffSmallLeds @126
+    turnOnAllIRs @127
+    turnOnBackIR @128
+    turnOnFrontIRs @129
+    turnOnSmallLeds @130
+    tvRemote @131 DATA
+    usbCommOpenedFlag @132 DATA
+    usb_receive @133
+    usb_send @134
+    waitForUpdate @135

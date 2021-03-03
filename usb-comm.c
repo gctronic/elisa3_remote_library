@@ -11,6 +11,18 @@
 
 static struct libusb_device_handle *devh = NULL;
 
+void get_device_list(void) {
+    libusb_device **devs;
+    ssize_t count = libusb_get_device_list(NULL, &devs);
+    size_t idx = 0;
+    struct libusb_device_descriptor desc = {0};
+
+    for (idx=0; idx<count; ++idx) {
+        libusb_get_device_descriptor(devs[idx], &desc);
+        printf("Vendor:Device = %04x:%04x\n", desc.idVendor, desc.idProduct);
+   }
+}
+
 static int find_nrf_device(void) {
 	devh = (libusb_device_handle*)libusb_open_device_with_vid_pid(NULL, 0x1915, 0x0101);
 	return devh ? 0 : -1;
@@ -62,6 +74,10 @@ int openCommunication() {
 	    fprintf(stderr, "libusb_init error %d\n", error);
 		return error;
 	}
+
+	//libusb_set_debug(NULL, 3);
+
+	//get_device_list();
 
 	error = find_nrf_device();
 	if (error < 0) {

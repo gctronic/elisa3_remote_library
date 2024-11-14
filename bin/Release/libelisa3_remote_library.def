@@ -1,5 +1,5 @@
 EXPORTS
-    CommThread@4 @1
+    CommThread @1
     RX_buffer @2 DATA
     TX_buffer @3 DATA
     accX @4 DATA
@@ -51,86 +51,91 @@ EXPORTS
     getFlagTX @50
     getGround @51
     getGroundAmbient @52
-    getIdFromAddress @53
-    getLeftMotSteps @54
-    getOdomTheta @55
-    getOdomXpos @56
-    getOdomYpos @57
-    getProximity @58
-    getProximityAmbient @59
-    getRFQuality @60
-    getRightMotSteps @61
-    getSelector @62
-    getTVRemoteCommand @63
-    getVerticalAngle @64
-    get_device_list @65
-    greenLed @66 DATA
-    groundAmbientValue @67 DATA
-    groundValue @68 DATA
-    lastMessageSentFlag @69 DATA
-    leftMotSteps @70 DATA
-    leftSpeed @71 DATA
-    messageIsSent @72
-    mutexRx @73 DATA
-    mutexThread @74 DATA
-    mutexTx @75 DATA
-    numOfErrors @76 DATA
-    numOfPackets @77 DATA
-    openCommunication @78
-    proxAmbientValue @79 DATA
-    proxValue @80 DATA
-    redLed @81 DATA
-    resetFlagTX @82
-    resetMessageIsSentFlag @83
-    resetRobotData @84
-    resumeTransferData @85
-    rightMotSteps @86 DATA
-    rightSpeed @87 DATA
-    robTheta @88 DATA
-    robXPos @89 DATA
-    robYPos @90 DATA
-    robotAddress @91 DATA
-    robotIsCharged @92
-    robotIsCharging @93
-    selector @94 DATA
-    sendMessageToRobot @95
-    setBlue @96
-    setBlueForAll @97
-    setCompletePacket @98
-    setCompletePacketForAll @99
-    setGreen @100
-    setGreenForAll @101
-    setLeftSpeed @102
-    setLeftSpeedForAll @103
-    setMutexRx @104
-    setMutexThread @105
-    setMutexTx @106
-    setRed @107
-    setRedForAll @108
-    setRightSpeed @109
-    setRightSpeedForAll @110
-    setRobotAddress @111
-    setRobotAddresses @112
-    setSmallLed @113
-    sleepEnabledFlag @114 DATA
-    smallLeds @115 DATA
-    speed @116
-    startCommunication @117
-    startOdometryCalibration @118
-    stopCommunication @119
-    stopTransferData @120
-    stopTransmissionFlag @121 DATA
-    transferData @122
-    turnOffAllIRs @123
-    turnOffBackIR @124
-    turnOffFrontIRs @125
-    turnOffSmallLeds @126
-    turnOnAllIRs @127
-    turnOnBackIR @128
-    turnOnFrontIRs @129
-    turnOnSmallLeds @130
-    tvRemote @131 DATA
-    usbCommOpenedFlag @132 DATA
-    usb_receive @133
-    usb_send @134
-    waitForUpdate @135
+    getGyroZ @53
+    getHeading @54
+    getIdFromAddress @55
+    getLeftMotSteps @56
+    getOdomTheta @57
+    getOdomXpos @58
+    getOdomYpos @59
+    getProximity @60
+    getProximityAmbient @61
+    getRFQuality @62
+    getRightMotSteps @63
+    getSelector @64
+    getTVRemoteCommand @65
+    getVerticalAngle @66
+    get_device_list @67
+    greenLed @68 DATA
+    groundAmbientValue @69 DATA
+    groundValue @70 DATA
+    gyroZ @71 DATA
+    heading @72 DATA
+    lastMessageSentFlag @73 DATA
+    leftMotSteps @74 DATA
+    leftSpeed @75 DATA
+    messageIsSent @76
+    mutexRx @77 DATA
+    mutexThread @78 DATA
+    mutexTx @79 DATA
+    numOfErrors @80 DATA
+    numOfPackets @81 DATA
+    openCommunication @82
+    payloadId @83 DATA
+    proxAmbientValue @84 DATA
+    proxValue @85 DATA
+    redLed @86 DATA
+    resetFlagTX @87
+    resetMessageIsSentFlag @88
+    resetRobotData @89
+    resumeTransferData @90
+    rightMotSteps @91 DATA
+    rightSpeed @92 DATA
+    robTheta @93 DATA
+    robXPos @94 DATA
+    robYPos @95 DATA
+    robotAddress @96 DATA
+    robotIsCharged @97
+    robotIsCharging @98
+    selector @99 DATA
+    sendMessageToRobot @100
+    setBlue @101
+    setBlueForAll @102
+    setCompletePacket @103
+    setCompletePacketForAll @104
+    setGreen @105
+    setGreenForAll @106
+    setLeftSpeed @107
+    setLeftSpeedForAll @108
+    setMutexRx @109
+    setMutexThread @110
+    setMutexTx @111
+    setRed @112
+    setRedForAll @113
+    setRightSpeed @114
+    setRightSpeedForAll @115
+    setRobotAddress @116
+    setRobotAddresses @117
+    setSmallLed @118
+    sleepEnabledFlag @119 DATA
+    smallLeds @120 DATA
+    speed @121
+    startCommunication @122
+    startOdometryCalibration @123
+    stopCommunication @124
+    stopTransferData @125
+    stopTransmissionFlag @126 DATA
+    transferData @127
+    turnOffAllIRs @128
+    turnOffBackIR @129
+    turnOffFrontIRs @130
+    turnOffSmallLeds @131
+    turnOnAllIRs @132
+    turnOnBackIR @133
+    turnOnFrontIRs @134
+    turnOnSmallLeds @135
+    tvRemote @136 DATA
+    usbCommOpenedFlag @137 DATA
+    usb_receive @138
+    usb_send @139
+    waitForUpdate @140

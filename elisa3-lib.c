@@ -95,6 +95,8 @@ unsigned char smallLeds[100];
 signed long int leftMotSteps[100], rightMotSteps[100];
 signed int robTheta[100], robXPos[100], robYPos[100];
 unsigned char sleepEnabledFlag[100];
+unsigned int heading[100];
+signed int gyroZ[100];
 
 // Communication
 char RX_buffer[64]={0};         // Last packet received from base station
@@ -168,6 +170,9 @@ void startCommunication(int *robotAddr, int numRobots) {
     }
     openCommunication();
     TX_buffer[0]=0x27;
+    for(int i=0; i<100; i++) {
+        errorPercentage[i] = 100.0;
+    }
 
 #if defined(_WIN32) || defined(_WIN64)
     commThread = CreateThread(NULL, 0, CommThread, NULL, 0, &commThreadId);
@@ -1365,6 +1370,40 @@ unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue,
     return waitForUpdate(robotAddr, us);
 }
 
+signed int getGyroZ(int robotAddr) {
+    signed int tempVal=0;
+    int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
+    if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = gyroZ[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
+    }
+    return -1;
+}
+
+int getHeading(int robotAddr) {
+    signed int tempVal=0;
+    int id = getIdFromAddress(robotAddr);
+    unsigned char enableMut = checkConcurrency(id);
+    if(id>=0) {
+        if(enableMut) {
+            setMutexRx();
+        }
+        tempVal = heading[id];
+        if(enableMut) {
+            freeMutexRx();
+        }
+        return tempVal;
+    }
+    return -1;
+}
+
 unsigned char waitForUpdate(int robotAddr, unsigned long us) {
 #if defined(_WIN32) || defined(_WIN64)
     SYSTEMTIME startTime;
@@ -1665,8 +1704,8 @@ void transferData() {
                 groundValue[currPacketId*4+0][1] = ((signed int)RX_buffer[6]<<8)|(unsigned char)RX_buffer[5];
                 groundValue[currPacketId*4+0][2] = ((signed int)RX_buffer[8]<<8)|(unsigned char)RX_buffer[7];
                 groundValue[currPacketId*4+0][3] = ((signed int)RX_buffer[10]<<8)|(unsigned char)RX_buffer[9];
-                accX[currPacketId*4+0] = (int)((RX_buffer[12]<<8)|(RX_buffer[11]));
-                accY[currPacketId*4+0] = (int)((RX_buffer[14]<<8)|(RX_buffer[13]));
+                accX[currPacketId*4+0] = ((signed int)RX_buffer[12]<<8)|(unsigned char)RX_buffer[11];
+                accY[currPacketId*4+0] = ((signed int)RX_buffer[14]<<8)|(unsigned char)RX_buffer[13];
                 tvRemote[currPacketId*4+0] = (unsigned char)RX_buffer[15];
                 break;
 
@@ -1687,9 +1726,9 @@ void transferData() {
                 groundAmbientValue[currPacketId*4+0][1] = ((signed int)RX_buffer[6]<<8)|(unsigned char)RX_buffer[5];
                 groundAmbientValue[currPacketId*4+0][2] = ((signed int)RX_buffer[8]<<8)|(unsigned char)RX_buffer[7];
                 groundAmbientValue[currPacketId*4+0][3] = ((signed int)RX_buffer[10]<<8)|(unsigned char)RX_buffer[9];
-                accZ[currPacketId*4+0] = (int)((RX_buffer[12]<<8)|(RX_buffer[11]));
+                accZ[currPacketId*4+0] = ((signed int)RX_buffer[12]<<8)|(unsigned char)RX_buffer[11];
                 batteryAdc[currPacketId*4+0] = ((signed int)RX_buffer[14]<<8)|(unsigned char)RX_buffer[13];
-                // RX_buffer[15] is free
+                heading[currPacketId*4+0] = ((unsigned char)RX_buffer[15])<<1;
                 break;
 
             case 7:
@@ -1698,6 +1737,7 @@ void transferData() {
                 robTheta[currPacketId*4+0] = ((((signed int)RX_buffer[10]<<8)|(unsigned char)RX_buffer[9])/10);//%360;
                 robXPos[currPacketId*4+0] = ((signed int)RX_buffer[12]<<8)|(unsigned char)RX_buffer[11];
                 robYPos[currPacketId*4+0] = ((signed int)RX_buffer[14]<<8)|(unsigned char)RX_buffer[13];
+                gyroZ[currPacketId*4+0] = RX_buffer[15]<<6;
                 break;
         }
     }
@@ -1727,8 +1767,8 @@ void transferData() {
                 groundValue[currPacketId*4+1][1] = ((signed int)RX_buffer[22]<<8)|(unsigned char)RX_buffer[21];
                 groundValue[currPacketId*4+1][2] = ((signed int)RX_buffer[24]<<8)|(unsigned char)RX_buffer[23];
                 groundValue[currPacketId*4+1][3] = ((signed int)RX_buffer[26]<<8)|(unsigned char)RX_buffer[25];
-                accX[currPacketId*4+1] = (int)((RX_buffer[28]<<8)|(RX_buffer[27]));
-                accY[currPacketId*4+1] = (int)((RX_buffer[30]<<8)|(RX_buffer[29]));
+                accX[currPacketId*4+1] = ((signed int)RX_buffer[28]<<8)|(unsigned char)RX_buffer[27];
+                accY[currPacketId*4+1] = ((signed int)RX_buffer[30]<<8)|(unsigned char)RX_buffer[29];
                 tvRemote[currPacketId*4+1] = (unsigned char)RX_buffer[31];
                 break;
 
@@ -1749,9 +1789,9 @@ void transferData() {
                 groundAmbientValue[currPacketId*4+1][1] = ((signed int)RX_buffer[22]<<8)|(unsigned char)RX_buffer[21];
                 groundAmbientValue[currPacketId*4+1][2] = ((signed int)RX_buffer[24]<<8)|(unsigned char)RX_buffer[23];
                 groundAmbientValue[currPacketId*4+1][3] = ((signed int)RX_buffer[26]<<8)|(unsigned char)RX_buffer[25];
-                accZ[currPacketId*4+1] = (int)((RX_buffer[28]<<8)|(RX_buffer[27]));
+                accZ[currPacketId*4+1] = ((signed int)RX_buffer[28]<<8)|(unsigned char)RX_buffer[27];
                 batteryAdc[currPacketId*4+1] = ((signed int)RX_buffer[30]<<8)|(unsigned char)RX_buffer[29];
-                // RX_buffer[31] is free
+                heading[currPacketId*4+1] = ((unsigned char)RX_buffer[31])<<1;
                 break;
 
             case 7:
@@ -1760,6 +1800,7 @@ void transferData() {
                 robTheta[currPacketId*4+1] = ((((signed int)RX_buffer[26]<<8)|(unsigned char)RX_buffer[25])/10);//%360;
                 robXPos[currPacketId*4+1] = ((signed int)RX_buffer[28]<<8)|(unsigned char)RX_buffer[27];
                 robYPos[currPacketId*4+1] = ((signed int)RX_buffer[30]<<8)|(unsigned char)RX_buffer[29];
+                gyroZ[currPacketId*4+1] = RX_buffer[31]<<6;
                 break;
         }
     }
@@ -1789,8 +1830,8 @@ void transferData() {
                 groundValue[currPacketId*4+2][1] = ((signed int)RX_buffer[38]<<8)|(unsigned char)RX_buffer[37];
                 groundValue[currPacketId*4+2][2] = ((signed int)RX_buffer[40]<<8)|(unsigned char)RX_buffer[39];
                 groundValue[currPacketId*4+2][3] = ((signed int)RX_buffer[42]<<8)|(unsigned char)RX_buffer[41];
-                accX[currPacketId*4+2] = (int)((RX_buffer[44]<<8)|(RX_buffer[43]));
-                accY[currPacketId*4+2] = (int)((RX_buffer[46]<<8)|(RX_buffer[45]));
+                accX[currPacketId*4+2] = ((signed int)RX_buffer[33]<<8)|(unsigned char)RX_buffer[43];
+                accY[currPacketId*4+2] = ((signed int)RX_buffer[46]<<8)|(unsigned char)RX_buffer[45];
                 tvRemote[currPacketId*4+2] = (unsigned char)RX_buffer[47];
                 break;
 
@@ -1811,9 +1852,9 @@ void transferData() {
                 groundAmbientValue[currPacketId*4+2][1] = ((signed int)RX_buffer[38]<<8)|(unsigned char)RX_buffer[37];
                 groundAmbientValue[currPacketId*4+2][2] = ((signed int)RX_buffer[40]<<8)|(unsigned char)RX_buffer[39];
                 groundAmbientValue[currPacketId*4+2][3] = ((signed int)RX_buffer[42]<<8)|(unsigned char)RX_buffer[41];
-                accZ[currPacketId*4+2] = (int)((RX_buffer[44]<<8)|(RX_buffer[43]));
+                accZ[currPacketId*4+2] = ((signed int)RX_buffer[44]<<8)|(unsigned char)RX_buffer[43];
                 batteryAdc[currPacketId*4+2] = ((signed int)RX_buffer[46]<<8)|(unsigned char)RX_buffer[45];
-                // RX_buffer[47] is free
+                heading[currPacketId*4+2] = ((unsigned char)RX_buffer[47])<<1;
                 break;
 
             case 7:
@@ -1822,6 +1863,7 @@ void transferData() {
                 robTheta[currPacketId*4+2] = ((((signed int)RX_buffer[42]<<8)|(unsigned char)RX_buffer[41])/10);//%360;
                 robXPos[currPacketId*4+2] = ((signed int)RX_buffer[44]<<8)|(unsigned char)RX_buffer[43];
                 robYPos[currPacketId*4+2] = ((signed int)RX_buffer[46]<<8)|(unsigned char)RX_buffer[45];
+                gyroZ[currPacketId*4+2] = RX_buffer[47]<<6;
                 break;
         }
     }
@@ -1851,8 +1893,8 @@ void transferData() {
                 groundValue[currPacketId*4+3][1] = ((signed int)RX_buffer[54]<<8)|(unsigned char)RX_buffer[53];
                 groundValue[currPacketId*4+3][2] = ((signed int)RX_buffer[56]<<8)|(unsigned char)RX_buffer[55];
                 groundValue[currPacketId*4+3][3] = ((signed int)RX_buffer[58]<<8)|(unsigned char)RX_buffer[57];
-                accX[currPacketId*4+3] = (int)((RX_buffer[60]<<8)|(RX_buffer[59]));
-                accY[currPacketId*4+3] = (int)((RX_buffer[62]<<8)|(RX_buffer[61]));
+                accX[currPacketId*4+3] = ((signed int)RX_buffer[60]<<8)|(unsigned char)RX_buffer[59];
+                accY[currPacketId*4+3] = ((signed int)RX_buffer[62]<<8)|(unsigned char)RX_buffer[61];
                 tvRemote[currPacketId*4+3] = (unsigned char)RX_buffer[63];
                 break;
 
@@ -1873,9 +1915,9 @@ void transferData() {
                 groundAmbientValue[currPacketId*4+3][1] = ((signed int)RX_buffer[54]<<8)|(unsigned char)RX_buffer[53];
                 groundAmbientValue[currPacketId*4+3][2] = ((signed int)RX_buffer[56]<<8)|(unsigned char)RX_buffer[55];
                 groundAmbientValue[currPacketId*4+3][3] = ((signed int)RX_buffer[58]<<8)|(unsigned char)RX_buffer[57];
-                accZ[currPacketId*4+3] = (int)((RX_buffer[60]<<8)|(RX_buffer[59]));
+                accZ[currPacketId*4+3] = ((signed int)RX_buffer[60]<<8)|(unsigned char)RX_buffer[59];
                 batteryAdc[currPacketId*4+3] = ((signed int)RX_buffer[62]<<8)|(unsigned char)RX_buffer[61];
-                // RX_buffer[15] is free
+                heading[currPacketId*4+3] = ((unsigned char)RX_buffer[63])<<1;
                 break;
 
             case 7:
@@ -1884,6 +1926,7 @@ void transferData() {
                 robTheta[currPacketId*4+3] = ((((signed int)RX_buffer[58]<<8)|(unsigned char)RX_buffer[57])/10);//%360;
                 robXPos[currPacketId*4+3] = ((signed int)RX_buffer[60]<<8)|(unsigned char)RX_buffer[59];
                 robYPos[currPacketId*4+3] = ((signed int)RX_buffer[62]<<8)|(unsigned char)RX_buffer[61];
+                gyroZ[currPacketId*4+3] = RX_buffer[63]<<6;
                 break;
         }
     }

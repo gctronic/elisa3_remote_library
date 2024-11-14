@@ -502,7 +502,7 @@ signed long int getLeftMotSteps(int robotAddr);
 signed long int getRightMotSteps(int robotAddr);
 
 /**
- * \brief Request the current percentage of failed trasnfers in the last 5 seconds.
+ * \brief Request the current percentage of failed transfers in the last 5 seconds.
  * \param robotAddr the address of the robot from which receive data.
  * \return current quality, 0 to 100.
  */
@@ -613,6 +613,20 @@ unsigned char waitForUpdate(int robotAddr, unsigned long us);
  * \return 0 if message sent succesfully, 1 otherwise.
  */
 unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds, unsigned long us);
+
+/**
+ * \brief Request the raw value of the gyroscope z axis.
+ * \param robotAddr the address of the robot from which receive data.
+ * \return current z value, the range is between -4096 and 4095
+ */
+signed int getGyroZ(int robotAddr);
+
+/**
+ * \brief Request the current orientation of the robot given by the magnetometer. This function is usable only with elisa 3.5.
+ * \param robotAddr the address of the robot from which receive data.
+ * \return current robot orientation, range is between 0 and 360 degrees (0 pointing to North).
+ */
+int getHeading(int robotAddr);
 
 #ifdef __cplusplus
 }

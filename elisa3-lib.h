@@ -12,7 +12,7 @@ extern "C" {
 #endif
 
 /**
- * \brief To be called once at the beginning, it init the USB communication with the RF module that is responsible to send data to the robots and initialize the list of robots to be controlled; max number of simultaneous robots is 100.
+ * \brief To be called once at the beginning, it init the USB communication with the RF module that is responsible to send data to the robots and initialize the list of robots to be controlled; max number of simultaneous robots is MAX_ROBOTS.
  * \param robotAddr array list of robot addresses to be handled.
  * \param numRobots the array size (number of robots to handle).
  * \return none
@@ -220,7 +220,7 @@ void disableCliffAvoidance(int robotAddr);
 void setRobotAddress(int robotIndex, int robotAddr);
 
 /**
- * \brief Set the addresses of the robots that need to be controlled; max number of simultaneous robots is 100.
+ * \brief Set the addresses of the robots that need to be controlled; max number of simultaneous robots is MAX_ROBOTS.
  * \param robotAddr array list of robot addresses to be handled.
  * \param numRobots the array size (number of robots to handle).
  * \return none

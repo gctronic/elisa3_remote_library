@@ -38,6 +38,8 @@
 #define OVERHEAD_SIZE (2*NUM_ROBOTS+1)
 #define UNUSED_BYTES 3
 
+#define MAX_ROBOTS 100
+
 // The usb buffer between the pc and the base-station is 64 bytes.
 // Each packet exchanged with the bast-station must contain as the
 // first byte the "command id" that at the moment can be either
@@ -76,27 +78,27 @@
 
 
 // robots
-int robotAddress[100];
-char leftSpeed[100];
-char rightSpeed[100];
-char redLed[100], greenLed[100], blueLed[100];
-unsigned int proxValue[100][8];
-unsigned int proxAmbientValue[100][8];
-unsigned int groundValue[100][4];
-unsigned int groundAmbientValue[100][4];
-unsigned int batteryAdc[100];
-unsigned int batteryPercent[100];
-signed int accX[100], accY[100], accZ[100];
-unsigned char selector[100];
-unsigned char tvRemote[100];
-unsigned char flagsRX[100];
-unsigned char flagsTX[100][2];
-unsigned char smallLeds[100];
-signed long int leftMotSteps[100], rightMotSteps[100];
-signed int robTheta[100], robXPos[100], robYPos[100];
-unsigned char sleepEnabledFlag[100];
-unsigned int heading[100];
-signed int gyroZ[100];
+int robotAddress[MAX_ROBOTS];
+char leftSpeed[MAX_ROBOTS];
+char rightSpeed[MAX_ROBOTS];
+char redLed[MAX_ROBOTS], greenLed[MAX_ROBOTS], blueLed[MAX_ROBOTS];
+unsigned int proxValue[MAX_ROBOTS][8];
+unsigned int proxAmbientValue[MAX_ROBOTS][8];
+unsigned int groundValue[MAX_ROBOTS][4];
+unsigned int groundAmbientValue[MAX_ROBOTS][4];
+unsigned int batteryAdc[MAX_ROBOTS];
+unsigned int batteryPercent[MAX_ROBOTS];
+signed int accX[MAX_ROBOTS], accY[MAX_ROBOTS], accZ[MAX_ROBOTS];
+unsigned char selector[MAX_ROBOTS];
+unsigned char tvRemote[MAX_ROBOTS];
+unsigned char flagsRX[MAX_ROBOTS];
+unsigned char flagsTX[MAX_ROBOTS][2];
+unsigned char smallLeds[MAX_ROBOTS];
+signed long int leftMotSteps[MAX_ROBOTS], rightMotSteps[MAX_ROBOTS];
+signed int robTheta[MAX_ROBOTS], robXPos[MAX_ROBOTS], robYPos[MAX_ROBOTS];
+unsigned char sleepEnabledFlag[MAX_ROBOTS];
+unsigned int heading[MAX_ROBOTS];
+signed int gyroZ[MAX_ROBOTS];
 
 // Communication
 char RX_buffer[64]={0};         // Last packet received from base station
@@ -114,10 +116,10 @@ pthread_mutex_t mutexTx;
 pthread_mutex_t mutexRx;
 pthread_mutex_t mutexThread;
 #endif
-double numOfErrors[100], numOfPackets=0, errorPercentage[100];
-unsigned char lastMessageSentFlag[100];
-unsigned char calibrationSent[100];
-unsigned char calibrateOdomSent[100];
+double numOfErrors[MAX_ROBOTS], numOfPackets=0, errorPercentage[MAX_ROBOTS];
+unsigned char lastMessageSentFlag[MAX_ROBOTS];
+unsigned char calibrationSent[MAX_ROBOTS];
+unsigned char calibrateOdomSent[MAX_ROBOTS];
 unsigned char stopTransmissionFlag = 0;
 unsigned int currNumRobots = 0;
 unsigned int currPacketId = 0;
@@ -170,7 +172,7 @@ void startCommunication(int *robotAddr, int numRobots) {
     }
     openCommunication();
     TX_buffer[0]=0x27;
-    for(int i=0; i<100; i++) {
+    for(int i=0; i<MAX_ROBOTS; i++) {
         errorPercentage[i] = 100.0;
     }
 

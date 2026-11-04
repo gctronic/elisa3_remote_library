@@ -98,7 +98,9 @@ signed long int leftMotSteps[MAX_ROBOTS], rightMotSteps[MAX_ROBOTS];
 signed int robTheta[MAX_ROBOTS], robXPos[MAX_ROBOTS], robYPos[MAX_ROBOTS];
 unsigned char sleepEnabledFlag[MAX_ROBOTS];
 unsigned int heading[MAX_ROBOTS];
-signed int gyroZ[MAX_ROBOTS];
+double gyroZ[MAX_ROBOTS];          // degrees per second
+
+#define GYRO_DPS_PER_LSB 1.12        // gyro Z radio byte resolution (Elisa-3.5)
 
 // Communication
 char RX_buffer[64]={0};         // Last packet received from base station
@@ -1147,14 +1149,11 @@ unsigned char robotIsCharging(int robotAddr) {
         if(enableMut) {
             setMutexRx();
         }
-        if((flagsRX[id]&0x01) == 0x01) {
-            return 1;
-        } else {
-            return 0;
-        }
+        unsigned char tempVal = ((flagsRX[id]&0x01) == 0x01);
         if(enableMut) {
             freeMutexRx();
         }
+        return tempVal;
     }
     return 0;
 }
@@ -1166,14 +1165,11 @@ unsigned char robotIsCharged(int robotAddr) {
         if(enableMut) {
             setMutexRx();
         }
-        if((flagsRX[id]&0x04) == 0x04) {
-            return 1;
-        } else {
-            return 0;
-        }
+        unsigned char tempVal = ((flagsRX[id]&0x04) == 0x04);
         if(enableMut) {
             freeMutexRx();
         }
+        return tempVal;
     }
     return 0;
 }
@@ -1185,14 +1181,11 @@ unsigned char buttonIsPressed(int robotAddr) {
         if(enableMut) {
             setMutexRx();
         }
-        if((flagsRX[id]&0x02) == 0x02) {
-            return 1;
-        } else {
-            return 0;
-        }
+        unsigned char tempVal = ((flagsRX[id]&0x02) == 0x00);    // bit1 = 0 => button pressed
         if(enableMut) {
             freeMutexRx();
         }
+        return tempVal;
     }
     return 0;
 }
@@ -1372,8 +1365,8 @@ unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue,
     return waitForUpdate(robotAddr, us);
 }
 
-signed int getGyroZ(int robotAddr) {
-    signed int tempVal=0;
+double getGyroZ(int robotAddr) {
+    double tempVal=0;
     int id = getIdFromAddress(robotAddr);
     unsigned char enableMut = checkConcurrency(id);
     if(id>=0) {
@@ -1462,7 +1455,7 @@ void transferData() {
     //printf("addresses: %d, %d, %d, %d\r\n", robotAddress[currPacketId*4+0], robotAddress[currPacketId*4+1], robotAddress[currPacketId*4+2], robotAddress[currPacketId*4+3]);
 
     // first robot
-    if(sleepEnabledFlag[0] == 1) {
+    if(sleepEnabledFlag[currPacketId*4+0] == 1) {
         TX_buffer[(0*ROBOT_PACKET_SIZE)+1] = 0x00;                          // R
         TX_buffer[(0*ROBOT_PACKET_SIZE)+2] = 0x00;				            // B
         TX_buffer[(0*ROBOT_PACKET_SIZE)+3] = 0x00;                          // G
@@ -1489,7 +1482,7 @@ void transferData() {
     }
 
     // second robot
-    if(sleepEnabledFlag[1] == 1) {
+    if(sleepEnabledFlag[currPacketId*4+1] == 1) {
         TX_buffer[(1*ROBOT_PACKET_SIZE)+1] = 0x00;                          // R
         TX_buffer[(1*ROBOT_PACKET_SIZE)+2] = 0x00;				            // B
         TX_buffer[(1*ROBOT_PACKET_SIZE)+3] = 0x00;                          // G
@@ -1516,7 +1509,7 @@ void transferData() {
     }
 
     // third robot
-    if(sleepEnabledFlag[2] == 1) {
+    if(sleepEnabledFlag[currPacketId*4+2] == 1) {
         TX_buffer[(2*ROBOT_PACKET_SIZE)+1] = 0x00;                          // R
         TX_buffer[(2*ROBOT_PACKET_SIZE)+2] = 0x00;				            // B
         TX_buffer[(2*ROBOT_PACKET_SIZE)+3] = 0x00;                          // G
@@ -1543,7 +1536,7 @@ void transferData() {
     }
 
     // fourth robot
-    if(sleepEnabledFlag[3] == 1) {
+    if(sleepEnabledFlag[currPacketId*4+3] == 1) {
         TX_buffer[(3*ROBOT_PACKET_SIZE)+1] = 0x00;                          // R
         TX_buffer[(3*ROBOT_PACKET_SIZE)+2] = 0x00;				            // B
         TX_buffer[(3*ROBOT_PACKET_SIZE)+3] = 0x00;                          // G
@@ -1739,7 +1732,7 @@ void transferData() {
                 robTheta[currPacketId*4+0] = ((((signed int)RX_buffer[10]<<8)|(unsigned char)RX_buffer[9])/10);//%360;
                 robXPos[currPacketId*4+0] = ((signed int)RX_buffer[12]<<8)|(unsigned char)RX_buffer[11];
                 robYPos[currPacketId*4+0] = ((signed int)RX_buffer[14]<<8)|(unsigned char)RX_buffer[13];
-                gyroZ[currPacketId*4+0] = RX_buffer[15]<<6;
+                gyroZ[currPacketId*4+0] = (signed char)RX_buffer[15] * GYRO_DPS_PER_LSB;
                 break;
         }
     }
@@ -1802,7 +1795,7 @@ void transferData() {
                 robTheta[currPacketId*4+1] = ((((signed int)RX_buffer[26]<<8)|(unsigned char)RX_buffer[25])/10);//%360;
                 robXPos[currPacketId*4+1] = ((signed int)RX_buffer[28]<<8)|(unsigned char)RX_buffer[27];
                 robYPos[currPacketId*4+1] = ((signed int)RX_buffer[30]<<8)|(unsigned char)RX_buffer[29];
-                gyroZ[currPacketId*4+1] = RX_buffer[31]<<6;
+                gyroZ[currPacketId*4+1] = (signed char)RX_buffer[31] * GYRO_DPS_PER_LSB;
                 break;
         }
     }
@@ -1832,7 +1825,7 @@ void transferData() {
                 groundValue[currPacketId*4+2][1] = ((signed int)RX_buffer[38]<<8)|(unsigned char)RX_buffer[37];
                 groundValue[currPacketId*4+2][2] = ((signed int)RX_buffer[40]<<8)|(unsigned char)RX_buffer[39];
                 groundValue[currPacketId*4+2][3] = ((signed int)RX_buffer[42]<<8)|(unsigned char)RX_buffer[41];
-                accX[currPacketId*4+2] = ((signed int)RX_buffer[33]<<8)|(unsigned char)RX_buffer[43];
+                accX[currPacketId*4+2] = ((signed int)RX_buffer[44]<<8)|(unsigned char)RX_buffer[43];
                 accY[currPacketId*4+2] = ((signed int)RX_buffer[46]<<8)|(unsigned char)RX_buffer[45];
                 tvRemote[currPacketId*4+2] = (unsigned char)RX_buffer[47];
                 break;
@@ -1865,7 +1858,7 @@ void transferData() {
                 robTheta[currPacketId*4+2] = ((((signed int)RX_buffer[42]<<8)|(unsigned char)RX_buffer[41])/10);//%360;
                 robXPos[currPacketId*4+2] = ((signed int)RX_buffer[44]<<8)|(unsigned char)RX_buffer[43];
                 robYPos[currPacketId*4+2] = ((signed int)RX_buffer[46]<<8)|(unsigned char)RX_buffer[45];
-                gyroZ[currPacketId*4+2] = RX_buffer[47]<<6;
+                gyroZ[currPacketId*4+2] = (signed char)RX_buffer[47] * GYRO_DPS_PER_LSB;
                 break;
         }
     }
@@ -1928,7 +1921,7 @@ void transferData() {
                 robTheta[currPacketId*4+3] = ((((signed int)RX_buffer[58]<<8)|(unsigned char)RX_buffer[57])/10);//%360;
                 robXPos[currPacketId*4+3] = ((signed int)RX_buffer[60]<<8)|(unsigned char)RX_buffer[59];
                 robYPos[currPacketId*4+3] = ((signed int)RX_buffer[62]<<8)|(unsigned char)RX_buffer[61];
-                gyroZ[currPacketId*4+3] = RX_buffer[63]<<6;
+                gyroZ[currPacketId*4+3] = (signed char)RX_buffer[63] * GYRO_DPS_PER_LSB;
                 break;
         }
     }

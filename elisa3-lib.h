@@ -615,11 +615,11 @@ unsigned char waitForUpdate(int robotAddr, unsigned long us);
 unsigned char sendMessageToRobot(int robotAddr, char red, char green, char blue, char flags[2], char left, char right, char leds, unsigned long us);
 
 /**
- * \brief Request the raw value of the gyroscope z axis.
+ * \brief Request the angular velocity around the gyroscope z axis (Elisa-3.5 only).
  * \param robotAddr the address of the robot from which receive data.
- * \return current z value, the range is between -4096 and 4095
+ * \return current z angular velocity in degrees per second, range is between -143.36 and 142.24 (resolution 1.12 dps).
  */
-signed int getGyroZ(int robotAddr);
+double getGyroZ(int robotAddr);
 
 /**
  * \brief Request the current orientation of the robot given by the magnetometer. This function is usable only with elisa 3.5.
